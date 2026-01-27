@@ -139,11 +139,11 @@ mariadb -u username -p database_name < u850419603_101.sql
 - `time_and_location` - بالوقت والموقع
 
 ### أنواع الفخاخ | Trap Types
-- `data_leak` - تسريب البيانات
-- `gps_debug` - وضع تصحيح الموقع الجغرافي
-- `admin_override` - زر إدارة وهمي
-- `confidential_bait` - طُعم سري
-- `recruitment` - اختبار التجنيد
+- `data_leak` - تسريب البيانات | Data Leak
+- `gps_debug` - وضع تصحيح GPS (Location Debug Mode)
+- `admin_override` - زر المدير الوهمي | Ghost Admin Button
+- `confidential_bait` - طُعم سري | Confidential Bait
+- `recruitment` - اختبار التجنيد | Recruitment Test
 
 ## 🔒 الأمان | Security
 
