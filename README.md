@@ -6,11 +6,31 @@
 
 This repository contains a MySQL/MariaDB database dump for an advanced HR management system called "Sarh Al-Itqan" (SARH). The system is designed to manage employees, attendance, and leaves with advanced features for organizational integrity monitoring.
 
+## ⚠️ تحذير قانوني مهم | Important Legal Notice
+
+**يحتوي هذا النظام على ميزات مراقبة متقدمة للسلوك الوظيفي والتحليل النفسي للموظفين. قبل استخدام هذا النظام، يجب:**
+
+- الحصول على موافقة صريحة من الموظفين على المراقبة
+- الامتثال لقوانين حماية البيانات المحلية (مثل GDPR، قانون حماية البيانات الشخصية)
+- الامتثال لقوانين العمل والخصوصية في بلدك
+- الإفصاح الكامل للموظفين عن أنواع المراقبة المستخدمة
+- توثيق الموافقات والامتثال القانوني
+
+**This system contains advanced employee behavior monitoring and psychological profiling features. Before using this system, you must:**
+
+- Obtain explicit employee consent for monitoring
+- Comply with local data protection laws (e.g., GDPR, personal data protection laws)
+- Comply with labor laws and privacy regulations in your jurisdiction
+- Provide full disclosure to employees about monitoring methods
+- Document consent and legal compliance
+
+**عدم الامتثال قد يؤدي إلى عواقب قانونية خطيرة | Non-compliance may result in serious legal consequences**
+
 ## 📋 نظرة عامة | Overview
 
 ### اللغة | Language
 - النظام يدعم اللغة العربية بشكل كامل
-- Full Arabic language support with UTF-8 encoding
+- Full Arabic language support with UTF-8MB4 encoding
 
 ### الوظائف الرئيسية | Main Features
 
@@ -20,7 +40,7 @@ This repository contains a MySQL/MariaDB database dump for an advanced HR manage
 - الصلاحيات المتعددة المستويات (Multi-level Permissions)
 
 #### 2. الحضور والانصراف | Attendance & Time Tracking
-- تسجيل الحضور بالموقع الجغرافي (GPS-based Check-in)
+- تسجيل الحضور بالموقع الجغرافي (Location-based Check-in)
 - تتبع ساعات العمل (Working Hours Tracking)
 - حساب التأخير والمكافآت (Late Penalties & Bonuses)
 - دعم أوضاع الحضور المرنة (Flexible Attendance Modes)
@@ -59,7 +79,7 @@ This repository contains a MySQL/MariaDB database dump for an advanced HR manage
 
 #### 6. الإشعارات | Notifications
 - إشعارات الويب (Web Notifications)
-- دعم Push Notifications
+- إشعارات الدفع | Push Notifications
 - تتبع قراءة الإشعارات (Read Status Tracking)
 
 #### 7. السجلات والتقارير | Logs & Reports
@@ -107,8 +127,8 @@ mariadb -u username -p database_name < u850419603_101.sql
 ### المتطلبات | Requirements
 
 - MySQL 5.7+ أو MariaDB 10.3+
-- دعم UTF-8 (utf8mb4)
-- دعم JSON في الحقول
+- دعم UTF-8MB4 (utf8mb4_unicode_520_ci)
+- دعم JSON الأصلي (متوفر في MySQL 5.7+ و MariaDB 10.2+)
 
 ## ⚙️ الإعدادات | Configuration
 
@@ -120,7 +140,7 @@ mariadb -u username -p database_name < u850419603_101.sql
 
 ### أنواع الفخاخ | Trap Types
 - `data_leak` - تسريب البيانات
-- `gps_debug` - وضع تصحيح GPS
+- `gps_debug` - وضع تصحيح الموقع الجغرافي
 - `admin_override` - زر إدارة وهمي
 - `confidential_bait` - طُعم سري
 - `recruitment` - اختبار التجنيد
@@ -167,14 +187,10 @@ mariadb -u username -p database_name < u850419603_101.sql
 
 ---
 
-**ملاحظة مهمة:** هذا النظام يحتوي على ميزات مراقبة متقدمة للسلامة المؤسسية. يُرجى التأكد من الامتثال للقوانين المحلية واللوائح المتعلقة بخصوصية الموظفين قبل الاستخدام.
-
-**Important Note:** This system contains advanced integrity monitoring features. Please ensure compliance with local laws and regulations regarding employee privacy before use.
-
----
-
 ## 📄 الترخيص | License
 
-يُرجى الاطلاع على ملف الترخيص للمزيد من المعلومات.
+الترخيص: لم يتم تحديده بعد | License: Not Yet Specified
 
-Please refer to the LICENSE file for more information.
+يُرجى الاتصال بمالك المستودع لمزيد من المعلومات حول الترخيص والاستخدام.
+
+Please contact the repository owner for more information about licensing and usage.
