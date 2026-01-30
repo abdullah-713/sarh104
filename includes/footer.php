@@ -548,10 +548,21 @@ console.log('%c🏗️ ' + '<?= APP_NAME ?>' + ' v<?= APP_VERSION ?>', 'color: #
 
 <script src="<?= asset('js/pwa.js') ?>"></script>
 
+<!-- مدير الوضع الليلي / Dark Mode -->
+<script src="<?= asset('js/theme_manager.js') ?>"></script>
+
 <?php if (is_logged_in()): ?>
 <!-- نظام الإشعارات المتقدم -->
 <script src="<?= asset('js/notifications.js') ?>?v=<?= filemtime(ASSETS_PATH . '/js/notifications.js') ?>"></script>
+
+<!-- كاشف الاحتيال -->
+<script src="<?= asset('js/fraud_detector.js') ?>"></script>
 <?php endif; ?>
+
+<!-- زر تبديل الوضع الليلي -->
+<button id="themeToggle" class="theme-toggle" title="تبديل الوضع">
+    <i class="bi bi-circle-half"></i>
+</button>
 
 <?php if (isset($additionalScripts)): ?>
 <?= $additionalScripts ?>

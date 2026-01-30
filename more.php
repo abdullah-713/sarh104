@@ -75,11 +75,66 @@ include INCLUDES_PATH . '/header.php';
         
         <!-- التحليلات والتنبؤ -->
         <div class="col-6">
-            <a href="<?= url('analytics.php') ?>" class="card text-decoration-none h-100 border-success">
+            <a href="<?= url('dashboard-advanced.php') ?>" class="card text-decoration-none h-100 border-success">
                 <div class="card-body text-center py-4">
                     <i class="bi bi-graph-up-arrow fs-1 text-success mb-2"></i>
-                    <h6 class="mb-0">التحليلات</h6>
-                    <small class="text-muted">جديد</small>
+                    <h6 class="mb-0">لوحة التحليلات</h6>
+                    <span class="badge bg-success">ذكاء اصطناعي</span>
+                </div>
+            </a>
+        </div>
+        
+        <!-- لوحة المتصدرين -->
+        <div class="col-6">
+            <a href="<?= url('leaderboard.php') ?>" class="card text-decoration-none h-100 border-warning">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-trophy fs-1 text-warning mb-2"></i>
+                    <h6 class="mb-0">المتصدرين</h6>
+                    <span class="badge bg-warning text-dark">🏆 تنافس</span>
+                </div>
+            </a>
+        </div>
+        
+        <!-- متجر النقاط -->
+        <div class="col-6">
+            <a href="<?= url('points-store.php') ?>" class="card text-decoration-none h-100 border-primary">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-gift fs-1 text-primary mb-2"></i>
+                    <h6 class="mb-0">متجر النقاط</h6>
+                    <span class="badge bg-primary">🎁 مكافآت</span>
+                </div>
+            </a>
+        </div>
+        
+        <!-- استبيان المزاج -->
+        <div class="col-6">
+            <a href="<?= url('mood-survey.php') ?>" class="card text-decoration-none h-100 border-info">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-emoji-smile fs-1 text-info mb-2"></i>
+                    <h6 class="mb-0">مزاجك اليوم</h6>
+                    <span class="badge bg-info">😊 كيف حالك؟</span>
+                </div>
+            </a>
+        </div>
+        
+        <!-- طلبات الإجازة -->
+        <div class="col-6">
+            <a href="<?= url('leave-requests.php') ?>" class="card text-decoration-none h-100 border-secondary">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-calendar2-week fs-1 text-secondary mb-2"></i>
+                    <h6 class="mb-0">الإجازات</h6>
+                    <span class="badge bg-secondary">📅 طلبات</span>
+                </div>
+            </a>
+        </div>
+        
+        <!-- الإعلانات -->
+        <div class="col-6">
+            <a href="<?= url('announcements.php') ?>" class="card text-decoration-none h-100 border-danger">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-megaphone fs-1 text-danger mb-2"></i>
+                    <h6 class="mb-0">الإعلانات</h6>
+                    <span class="badge bg-danger">📢 جديد</span>
                 </div>
             </a>
         </div>
