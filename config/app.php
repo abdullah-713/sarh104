@@ -284,17 +284,62 @@ function current_role_level(): int {
 }
 
 /**
- * التحقق من الصلاحية
- * Check permission
+ * التحقق من الصلاحية - نظام صلاحيات فردي متقدم
+ * Check permission - Advanced Individual Permissions System
  */
 function has_permission(string $permission): bool {
     if (!is_logged_in()) return false;
     
-    // الأدمن له جميع الصلاحيات
+    // السوبر أدمن له جميع الصلاحيات مطلقاً
+    if (is_super_admin()) return true;
+    
+    // الأدمن (مستوى 10+) له جميع الصلاحيات
     if (current_role_level() >= ROLE_ADMIN) return true;
     
+    // صلاحيات "*" تعني كل شيء
+    $permissions = $_SESSION['permissions'] ?? [];
+    if (in_array('*', $permissions, true)) return true;
+    
     // التحقق من الصلاحيات المخزنة في الجلسة
-    return in_array($permission, $_SESSION['permissions'] ?? []);
+    return in_array($permission, $permissions);
+}
+
+/**
+ * التحقق من كون المستخدم سوبر أدمن
+ * Check if user is Super Admin
+ */
+function is_super_admin(): bool {
+    return isset($_SESSION['is_super_admin']) && $_SESSION['is_super_admin'] === true;
+}
+
+/**
+ * التحقق مما إذا كانت الوحدة مرئية للمستخدم
+ * Check if module is visible to user
+ */
+function is_module_visible(string $moduleKey): bool {
+    if (!is_logged_in()) return false;
+    
+    // السوبر أدمن يرى كل شيء
+    if (is_super_admin()) return true;
+    
+    // إذا لم تُحدد وحدات معينة، يرى كل شيء حسب صلاحياته
+    $visibleModules = $_SESSION['visible_modules'] ?? null;
+    if ($visibleModules === null || empty($visibleModules)) {
+        return true; // لم تُقيّد الوحدات
+    }
+    
+    return in_array($moduleKey, $visibleModules, true);
+}
+
+/**
+ * الحصول على الوحدات المرئية للمستخدم
+ * Get visible modules for user
+ */
+function get_visible_modules(): array {
+    if (is_super_admin()) {
+        return []; // فارغة = كل شيء مرئي
+    }
+    return $_SESSION['visible_modules'] ?? [];
 }
 
 /**

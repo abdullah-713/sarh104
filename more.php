@@ -94,7 +94,22 @@ include INCLUDES_PATH . '/header.php';
                 </div>
             </a>
         </div>
+        <?php endif; ?>
         
+        <?php if (is_super_admin()): ?>
+        <!-- إدارة صلاحيات المستخدمين - للسوبر أدمن فقط -->
+        <div class="col-6">
+            <a href="<?= url('user-permissions.php') ?>" class="card text-decoration-none h-100 border-danger">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-shield-lock fs-1 text-danger mb-2"></i>
+                    <h6 class="mb-0">الصلاحيات</h6>
+                    <small class="text-danger">سوبر أدمن</small>
+                </div>
+            </a>
+        </div>
+        <?php endif; ?>
+        
+        <?php if (has_role(ROLE_ADMIN)): ?>
         <!-- مدير قاعدة البيانات -->
         <div class="col-6">
             <a href="<?= url('admin/universal_manager.php') ?>" class="card text-decoration-none h-100 border-danger">

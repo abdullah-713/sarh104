@@ -51,6 +51,9 @@ function login(string $identifier, string $password, bool $remember = false): ar
                     1000 AS monthly_starting_points,
                     u.custom_schedule,
                     u.is_active,
+                    COALESCE(u.is_super_admin, 0) AS is_super_admin,
+                    u.permissions AS user_permissions,
+                    u.visible_modules,
                     0 AS has_immunity,
                     NULL AS immunity_until,
                     u.login_attempts,
@@ -212,7 +215,7 @@ function create_user_session(array $user): void {
     $_SESSION['job_title'] = $user['job_title_ar'];
     
     // ═══════════════════════════════════════════════════════════════════════
-    // بيانات الدور والصلاحيات
+    // بيانات الدور
     // ═══════════════════════════════════════════════════════════════════════
     $_SESSION['role_id'] = (int) $user['role_id'];
     $_SESSION['role_slug'] = $user['role_slug'];
@@ -222,14 +225,24 @@ function create_user_session(array $user): void {
     $_SESSION['role_level'] = (int) $user['role_level'];
     $_SESSION['role_color'] = $user['role_color'];
     $_SESSION['role_icon'] = $user['role_icon'];
-    $_SESSION['can_access_all_branches'] = (bool) $user['can_access_all_branches'];
+    $_SESSION['can_access_all_branches'] = (bool) ($user['can_access_all_branches'] ?? false);
     
-    // الصلاحيات من JSON column
-    $_SESSION['permissions'] = parse_permissions_json($user['role_permissions']);
+    // ═══════════════════════════════════════════════════════════════════════
+    // السوبر أدمن والصلاحيات الفردية
+    // ═══════════════════════════════════════════════════════════════════════
+    $_SESSION['is_super_admin'] = (bool) ($user['is_super_admin'] ?? false);
+    
+    // دمج الصلاحيات: صلاحيات الدور + صلاحيات المستخدم الفردية
+    $rolePermissions = parse_permissions_json($user['role_permissions'] ?? null);
+    $userPermissions = parse_permissions_json($user['user_permissions'] ?? null);
+    $_SESSION['permissions'] = array_unique(array_merge($rolePermissions, $userPermissions));
+    
+    // الوحدات المرئية للمستخدم (يتحكم بها السوبر أدمن)
+    $_SESSION['visible_modules'] = parse_json_column($user['visible_modules'] ?? null);
     
     // الحصانة (من المستخدم أو الدور)
-    $hasImmunity = (bool) $user['has_immunity'] || (bool) $user['role_has_immunity'];
-    if ($user['immunity_until'] && strtotime($user['immunity_until']) < time()) {
+    $hasImmunity = (bool) ($user['has_immunity'] ?? false) || (bool) ($user['role_has_immunity'] ?? false);
+    if (isset($user['immunity_until']) && $user['immunity_until'] && strtotime($user['immunity_until']) < time()) {
         $hasImmunity = false; // انتهت صلاحية الحصانة
     }
     $_SESSION['has_immunity'] = $hasImmunity;
@@ -237,32 +250,32 @@ function create_user_session(array $user): void {
     // ═══════════════════════════════════════════════════════════════════════
     // بيانات الفرع
     // ═══════════════════════════════════════════════════════════════════════
-    $_SESSION['branch_id'] = (int) $user['branch_id'];
-    $_SESSION['branch_code'] = $user['branch_code'];
-    $_SESSION['branch_name'] = $user['branch_name_ar'] ?: $user['branch_name_en'];
-    $_SESSION['branch_city'] = $user['branch_city'];
-    $_SESSION['branch_latitude'] = $user['branch_latitude'] ? (float) $user['branch_latitude'] : null;
-    $_SESSION['branch_longitude'] = $user['branch_longitude'] ? (float) $user['branch_longitude'] : null;
-    $_SESSION['branch_geofence_radius'] = (int) $user['branch_geofence_radius'];
+    $_SESSION['branch_id'] = (int) ($user['branch_id'] ?? 0);
+    $_SESSION['branch_code'] = $user['branch_code'] ?? null;
+    $_SESSION['branch_name'] = ($user['branch_name_ar'] ?? null) ?: ($user['branch_name_en'] ?? null);
+    $_SESSION['branch_city'] = $user['branch_city'] ?? null;
+    $_SESSION['branch_latitude'] = isset($user['branch_latitude']) && $user['branch_latitude'] ? (float) $user['branch_latitude'] : null;
+    $_SESSION['branch_longitude'] = isset($user['branch_longitude']) && $user['branch_longitude'] ? (float) $user['branch_longitude'] : null;
+    $_SESSION['branch_geofence_radius'] = (int) ($user['branch_geofence_radius'] ?? 100);
     
     // إعدادات الفرع من JSON
-    $_SESSION['branch_settings'] = parse_json_column($user['branch_settings']);
+    $_SESSION['branch_settings'] = parse_json_column($user['branch_settings'] ?? null);
     
     // ═══════════════════════════════════════════════════════════════════════
     // بيانات النقاط
     // ═══════════════════════════════════════════════════════════════════════
-    $_SESSION['current_points'] = (int) $user['current_points'];
-    $_SESSION['monthly_starting_points'] = (int) $user['monthly_starting_points'];
+    $_SESSION['current_points'] = (int) ($user['current_points'] ?? 0);
+    $_SESSION['monthly_starting_points'] = (int) ($user['monthly_starting_points'] ?? 1000);
     
     // ═══════════════════════════════════════════════════════════════════════
     // جدول العمل المخصص (إن وجد)
     // ═══════════════════════════════════════════════════════════════════════
-    $_SESSION['custom_schedule'] = parse_json_column($user['custom_schedule']);
+    $_SESSION['custom_schedule'] = parse_json_column($user['custom_schedule'] ?? null);
     
     // ═══════════════════════════════════════════════════════════════════════
     // تفضيلات المستخدم
     // ═══════════════════════════════════════════════════════════════════════
-    $_SESSION['preferences'] = parse_json_column($user['preferences']);
+    $_SESSION['preferences'] = parse_json_column($user['preferences'] ?? null);
     
     // ═══════════════════════════════════════════════════════════════════════
     // بيانات الجلسة
