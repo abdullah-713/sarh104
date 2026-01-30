@@ -1,0 +1,4 @@
+[2026-01-16 16:28:20] [FAILED] IP: ::1 | User: The_Architect | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+[2026-01-16 16:29:34] [FAILED] IP: ::1 | User: The_Architect | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/2.3.34 Chrome/138.0.7204.251 Electron/37.7.0 Safari/537.36
+[2026-01-16 16:30:21] [SUCCESS] IP: ::1 | User: The_Architect | UA: curl/8.16.0
+[2026-01-16 16:32:01] [SUCCESS] IP: ::1 | User: The_Architect | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/2.3.34 Chrome/138.0.7204.251 Electron/37.7.0 Safari/537.36

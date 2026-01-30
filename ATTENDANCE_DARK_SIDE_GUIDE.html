@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدليل الإداري المتقدم - الجانب المظلم - صرح الإتقان</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.9;
+            color: #e0e0e0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 40px;
+            max-width: 210mm;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        /* العلامة المائية */
+        .watermark-pattern {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 60px;
+            font-weight: 900;
+            color: rgba(255, 111, 0, 0.08);
+            z-index: -1;
+            pointer-events: none;
+            white-space: nowrap;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        h1 {
+            color: #ff4444;
+            font-size: 36px;
+            margin-bottom: 30px;
+            border-bottom: 5px solid #cc0000;
+            padding-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        h2 {
+            color: #ff6f00;
+            font-size: 28px;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #e65100;
+            padding-bottom: 12px;
+            font-weight: bold;
+        }
+        
+        h3 {
+            color: #ff9800;
+            font-size: 22px;
+            margin-top: 35px;
+            margin-bottom: 18px;
+            font-weight: bold;
+        }
+        
+        h4 {
+            color: #fb8c00;
+            font-size: 19px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 18px;
+            text-align: justify;
+            font-size: 16px;
+            line-height: 1.9;
+            color: #d0d0d0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+            background: #2a2a2a;
+        }
+        
+        table th {
+            background: linear-gradient(135deg, #cc0000 0%, #990000 100%);
+            color: white;
+            padding: 15px;
+            text-align: right;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        table td {
+            padding: 12px;
+            border: 1px solid #444;
+            text-align: right;
+            background: #2a2a2a;
+            color: #e0e0e0;
+        }
+        
+        table tr:nth-child(even) {
+            background-color: #333;
+        }
+        
+        table tr:hover {
+            background-color: #3a3a3a;
+        }
+        
+        .highlight {
+            background: #4a0000;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #ff6f00;
+        }
+        
+        ul, ol {
+            margin: 20px 0 20px 40px;
+            font-size: 16px;
+            color: #d0d0d0;
+        }
+        
+        li {
+            margin-bottom: 12px;
+            line-height: 1.9;
+        }
+        
+        .success {
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        .error {
+            color: #f44336;
+            font-weight: bold;
+        }
+        
+        .warning {
+            color: #ff9800;
+            font-weight: bold;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            border-right: 5px solid #ff6f00;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        
+        .danger-box {
+            background: linear-gradient(135deg, #3a0000 0%, #2a0000 100%);
+            border-right: 5px solid #cc0000;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(255,0,0,0.3);
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #4a2a00 0%, #3a1a00 100%);
+            border-right: 5px solid #ff9800;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(255,152,0,0.3);
+        }
+        
+        .feature-box {
+            background: linear-gradient(135deg, #2a1a3a 0%, #1a0a2a 100%);
+            border-right: 5px solid #9c27b0;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(156,39,176,0.3);
+        }
+        
+        .example-box {
+            background: linear-gradient(135deg, #1a3a1a 0%, #0a2a0a 100%);
+            border-right: 5px solid #4caf50;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(76,175,80,0.3);
+        }
+        
+        .section-divider {
+            border-top: 4px solid #ff4444;
+            margin: 50px 0;
+        }
+        
+        .footer {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 3px solid #444;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .emoji {
+            font-size: 1.3em;
+        }
+        
+        .big-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ff4444;
+            display: inline-block;
+            margin: 0 10px;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+                background: #fff;
+                color: #000;
+            }
+            
+            h1 {
+                page-break-after: avoid;
+            }
+            
+            h2, h3 {
+                page-break-after: avoid;
+            }
+            
+            table {
+                page-break-inside: avoid;
+            }
+            
+            .example-box, .info-box, .warning-box, .feature-box, .danger-box {
+                page-break-inside: avoid;
+            }
+            
+            .watermark-pattern {
+                font-size: 90px;
+                transform: translate(-50%, -50%) rotate(-45deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- العلامة المائية -->
+    <div class="watermark-pattern">عبدالحكيم خلف المذهول</div>
+    
+    <h1><span class="emoji">⚫</span> الدليل الإداري المتقدم<br>الجانب المظلم للنظام</h1>
+    <h2 style="text-align: center; margin-top: 20px; border: none; color: #999; font-size: 20px;">دليل مالك التطبيق - استغلال النظام للسيطرة الإدارية</h2>
+    
+    <div class="danger-box">
+        <h3 style="margin-top: 0; color: #ff4444;"><span class="emoji">⚠️</span> تحذير هام</h3>
+        <p>هذا الدليل يوضح <strong>القدرات المتقدمة</strong> للنظام التي يمكن استخدامها بشكل استغلالي. يجب استخدام هذه الميزات بمسؤولية وأخلاقية. الاستخدام غير المسؤول قد يؤدي إلى:</p>
+        <ul>
+            <li>تدهور بيئة العمل والثقة بين الموظفين والإدارة</li>
+            <li>مشاكل قانونية متعلقة بالخصوصية وحقوق الموظفين</li>
+            <li>تأثير سلبي على الإنتاجية والولاء التنظيمي</li>
+            <li>سمعة سيئة للشركة</li>
+        </ul>
+    </div>
+    
+    <div class="section-divider"></div>
+    
+    <h2><span class="emoji">👁️</span> 1. المراقبة الشاملة: أنت ترى كل شيء</h2>
+    
+    <div class="feature-box">
+        <h3 style="margin-top: 0; color: #9c27b0;"><span class="emoji">📊</span> البيانات المخزنة عن كل موظف</h3>
+        <p>النظام يسجل <strong>كل حركة</strong> لكل موظف. أنت تملك:</p>
+        <ul>
+            <li><strong>سجل كامل للأوقات:</strong> متى دخل، متى خرج، كم تأخر، كم خرج مبكراً</li>
+            <li><strong>المواقع الجغرافية:</strong> الإحداثيات الدقيقة لكل عملية حضور/انصراف</li>
+            <li><strong>المسافات:</strong> المسافة الدقيقة من مكان العمل في كل مرة</li>
+            <li><strong>أنماط السلوك:</strong> من أكثر الموظفين تأخيراً، من يعمل ساعات إضافية، من يغادر مبكراً</li>
+            <li><strong>سجلات الشك:</strong> كل محاولة مشبوهة أو تلاعب محتمل</li>
+        </ul>
+    </div>
+    
+    <div class="warning-box">
+        <h3 style="margin-top: 0; color: #ff9800;"><span class="emoji">🔍</span> كيف تستخدم هذه البيانات للضغط</h3>
+        
+        <h4>استراتيجية 1: التهديد غير المباشر</h4>
+        <ul>
+            <li><strong>إرسال تقارير:</strong> أرسل تقريراً أسبوعياً لكل موظف يوضح كل تأخير وكل خروج مبكر</li>
+            <li><strong>المقارنات:</strong> اعرض إحصائيات تظهر "أسوأ الموظفين" علناً</li>
+            <li><strong>الوعيد:</strong> استخدم البيانات لتبرير قرارات تأديبية قاسية</li>
+        </ul>
+        
+        <h4>استراتيجية 2: المراقبة المستمرة</h4>
+        <ul>
+            <li><strong>متابعة فورية:</strong> راقب الموظفين لحظة بلحظة - من دخل، من لم يدخل، من خارج نطاق العمل</li>
+            <li><strong>الإنذارات:</strong> اضبط تنبيهات فورية عند أي تأخير أو خروج مبكر</li>
+            <li><strong>التقارير اليومية:</strong> احصل على تقرير مفصل كل صباح بكل ما حدث البارحة</li>
+        </ul>
+    </div>
+    
+    <div class="section-divider"></div>
+    
+    <h2><span class="emoji">💰</span> 2. نظام النقاط: سلاح للتحكم والضغط</h2>
+    
+    <div class="danger-box">
+        <h3 style="margin-top: 0; color: #cc0000;"><span class="emoji">⚡</span> كيف تستخدم النقاط للضغط النفسي</h3>
+        
+        <h4>الاستراتيجية القمعية:</h4>
+        
+        <div class="example-box">
+            <h4 style="margin-top: 0;"><span class="emoji">📉</span> خفض النقاط بشكل متعمد</h4>
+            <ul>
+                <li><strong>فترة السماح القصيرة:</strong> ضع فترة سماح 5 دقائق بدلاً من 15 (كل تأخير = خصم)</li>
+                <li><strong>معدل خصم عالي:</strong> زد معدل الخصم إلى 2 نقطة لكل دقيقة (بدلاً من 0.5)</li>
+                <li><strong>عدم السماح بالتعويض:</strong> امنع استخدام النقاط لشراء "إلغاء تأخير"</li>
+                <li><strong>إعادة تعيين دورية:</strong> امسح رصيد النقاط كل شهر (لا تراكم)</li>
+            </ul>
+        </div>
+        
+        <div class="warning-box">
+            <h4 style="margin-top: 15px;"><span class="emoji">🎯</span> استهداف الموظفين المحددين</h4>
+            <ul>
+                <li><strong>جدول مختلف:</strong> اعطِ موظف معين مواعيد صعبة (8:00 صباحاً بدلاً من 9:00)</li>
+                <li><strong>عدم السماح بالتسجيل عن بُعد:</strong> أجبره على الحضور شخصياً حتى لو كان عنده عذر</li>
+                <li><strong>حد أدنى عالي:</strong> ضع حد أدنى 8 ساعات عمل (حتى لو الدوام 6 ساعات)</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="section-divider"></div>
+    
+    <h2><span class="emoji">🕵️</span> 3. كشف التلاعب: استخدم النظام كأداة اتهام</h2>
+    
+    <div class="feature-box">
+        <h3 style="margin-top: 0; color: #9c27b0;"><span class="emoji">🔎</span> سجلات النزاهة: دليل للاتهام</h3>
+        <p>النظام يسجل <strong>كل شيء مشبوه</strong>:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>نوع الشك</th>
+                    <th>كيف تستخدمه</th>
+                    <th>الضغط المحتمل</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>حضور من مسافة بعيدة</td>
+                    <td>ادعي أن الموظف استخدم "فيك GPS"</td>
+                    <td>تهديد بالخصم أو الفصل</td>
+                </tr>
+                <tr>
+                    <td>أجهزة مشبوهة (محاكي)</td>
+                    <td>استخدمها كدليل على "التلاعب المتعمد"</td>
+                    <td>إنذار نهائي أو فصلاً فورياً</td>
+                </tr>
+                <tr>
+                    <td>تأخير متكرر</td>
+                    <td>اعرض النمط كـ "عدم التزام"</td>
+                    <td>خصم من الراتب أو تأخير ترقية</td>
+                </tr>
+                <tr>
+                    <td>خروج مبكر منتظم</td>
+                    <td>استخدمه لدعم "تقليل ساعات العمل"</td>
+                    <td>رفض طلبات إجازة أو مكافآت</td>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="section-divider"></div>
+    
+    <h2><span class="emoji">⚙️</span> 4. إعدادات قمعية: اجعل النظام صارماً</h2>
+    
+    <div class="danger-box">
+        <h3 style="margin-top: 0; color: #cc0000;"><span class="emoji">🔒</span> كيفية تكوين النظام للسيطرة المطلقة</h3>
+        
+        <h4>الإعدادات القمعية الموصى بها:</h4>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>الإعداد</th>
+                    <th>القيمة القمعية</th>
+                    <th>الهدف</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>فترة السماح</td>
+                    <td><span class="big-number">0</span> دقيقة</td>
+                    <td>لا تسامح مطلقاً - كل ثانية مهمة</td>
+                </tr>
+                <tr>
+                    <td>معدل خصم التأخير</td>
+                    <td><span class="big-number">2</span> نقطة/دقيقة</td>
+                    <td>عقاب قاسي على كل تأخير</td>
+                </tr>
+                <tr>
+                    <td>معدل خصم الخروج المبكر</td>
+                    <td><span class="big-number">2</span> نقطة/دقيقة</td>
+                    <td>منع الخروج المبكر تماماً</td>
+                </tr>
+                <tr>
+                    <td>معدل مكافأة العمل الإضافي</td>
+                    <td><span class="big-number">0</span> نقطة</td>
+                    <td>لا مكافآت - العمل الإضافي واجب</td>
+                </tr>
+                <tr>
+                    <td>الحد الأدنى لساعات العمل</td>
+                    <td><span class="big-number">9</span> ساعات</td>
+                    <td>إجبار الموظفين على العمل أكثر</td>
+                </tr>
+                <tr>
+                    <td>فتحات التسجيل</td>
+                    <td>مفعّلة بشكل صارم</td>
+                    <td>لا مرونة - دقيقة واحدة خارج الوقت = رفض</td>
+                </tr>
+                <tr>
+                    <td>فحص الموقع</td>
+                    <td>إلزامي دائماً</td>
+                    <td>منع أي تسجيل عن بُعد</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="section-divider"></div>
+    
+    <h2><span class="emoji">📋</span> 5. أمثلة عملية: سيناريوهات قمعية</h2>
+    
+    <div class="danger-box">
+        <h3 style="margin-top: 0;"><span class="emoji">🎭</span> سيناريو 1: الضغط على موظف "مشاغب"</h3>
+        <p><strong>الهدف:</strong> إجبار موظف على الاستقالة أو الخضوع</p>
+        
+        <h4>الخطوات:</h4>
+        <ol>
+            <li><strong>غيّر جدوله:</strong> ضع له مواعيد صعبة (8:00 ص صارمة، 9:00 م صارمة)</li>
+            <li><strong>ألغِ فترة السماح:</strong> ضع فترة السماح = 0</li>
+            <li><strong>زد الخصومات:</strong> معدل الخصم = 2 نقطة/دقيقة</li>
+            <li><strong>راقب كل حركة:</strong> راقب كل محاولة حضور/انصراف</li>
+            <li><strong>استخدم البيانات:</strong> استدعِه كل أسبوع وعرض عليه تقريره "المشبوه"</li>
+            <li><strong>التهديد:</strong> أخبره أن البيانات "تدل على عدم الالتزام"</li>
+        </ol>
+        
+        <p><strong>النتيجة المتوقعة:</strong> الموظف سيعيش تحت ضغط مستمر، كل تأخير = خصم كبير، كل محاولة = تسجيل مشبوه. سيفكر في الاستقالة أو سيخضع تماماً.</p>
+    </div>
+    
+    <div class="warning-box">
+        <h3 style="margin-top: 0;"><span class="emoji">💼</span> سيناريو 2: خلق "ثقافة الخوف"</h3>
+        <p><strong>الهدف:</strong> جعل جميع الموظفين يعيشون في خوف دائم من المراقبة</p>
+        
+        <h4>الخطوات:</h4>
+        <ul>
+            <li><strong>الإعلان الصريح:</strong> أخبر الموظفين أن "النظام يراقب كل شيء"</li>
+            <li><strong>عرض التقارير:</strong> اعرض تقارير يومية/أسبوعية علناً</li>
+            <li><strong>المقارنات:</strong> اذكر أسماء "أسوأ الموظفين" في الاجتماعات</li>
+            <li><strong>العقاب الجماعي:</strong> إذا تأخر شخص، عاقب الفريق كله</li>
+            <li><strong>التهديد المستمر:</strong> استخدم عبارات مثل "البيانات واضحة"، "لا يمكنك الإنكار"</li>
+        </ul>
+        
+        <p><strong>النتيجة المتوقعة:</strong> الموظفون سيعيشون في قلق دائم، سيتحققون من رصيد نقاطهم كل يوم، سيعتبرون أنهم "مراقبون 24/7".</p>
+    </div>
+    
+    <div class="feature-box">
+        <h3 style="margin-top: 0;"><span class="emoji">🎯</span> سيناريو 3: منع المطالبات والحقوق</h3>
+        <p><strong>الهدف:</strong> استخدام البيانات لرفض طلبات الموظفين</p>
+        
+        <h4>الأمثلة:</h4>
+        <ul>
+            <li><strong>رفض طلبات إجازة:</strong> "سجلك يظهر تأخيراً متكرراً، لا يمكن الموافقة على الإجازة"</li>
+            <li><strong>رفض ترقية:</strong> "بيانات الحضور لا تدعم ترقيتك"</li>
+            <li><strong>رفض زيادة:</strong> "أنت تخرج مبكراً كل يوم، لا تستحق زيادة"</li>
+            <li><strong>تبرير الفصل:</strong> "السجل يظهر عدم التزام متكرر"</li>
+            <li><strong>منع مكافآت:</strong> "رصيد نقاطك سلبي، لا مكافآت"</li>
+        </ul>
+    </div>
+    
+    <div class="section-divider"></div>
+    
+    <h2><span class="emoji">⚖️</span> 6. الجانب القانوني والأخلاقي</h2>
+    
+    <div class="danger-box">
+        <h3 style="margin-top: 0; color: #cc0000;"><span class="emoji">🚨</span> المخاطر القانونية</h3>
+        <p>استخدام النظام بشكل استغلالي قد يعرضك لمشاكل قانونية:</p>
+        
+        <ul>
+            <li><strong>قوانين الخصوصية:</strong> بعض الدول تحظر جمع البيانات الجغرافية بدون موافقة صريحة</li>
+            <li><strong>قوانين العمل:</strong> استخدام البيانات للتمييز أو الإكراه قد يكون غير قانوني</li>
+            <li><strong>حماية البيانات:</strong> تسريب البيانات أو استخدامها بشكل غير مصرح قد يعرضك للمساءلة</li>
+            <li><strong>حقوق الموظفين:</strong> المراقبة المستمرة قد تنتهك حقوق الموظفين</li>
+        </ul>
+    </div>
+    
+    <div class="warning-box">
+        <h3 style="margin-top: 0; color: #ff9800;"><span class="emoji">💔</span> التأثير على بيئة العمل</h3>
+        <p>الاستخدام القمعي للنظام يؤدي إلى:</p>
+        
+        <ul>
+            <li><strong>فقدان الثقة:</strong> الموظفون لن يثقوا بالإدارة</li>
+            <li><strong>انخفاض الإنتاجية:</strong> الضغط النفسي يقلل الإنتاجية</li>
+            <li><strong>زيادة الاستقالات:</strong> الموظفون المتميزون سيتركون العمل</li>
+            <li><strong>سمعة سيئة:</strong> الشركة ستصبح معروفة بـ "المراقبة القمعية"</li>
+            <li><strong>صراعات داخلية:</strong> التوتر بين الموظفين والإدارة سيزيد</li>
+        </ul>
+    </div>
+    
+    <div class="section-divider"></div>
+    
+    <h2><span class="emoji">🎭</span> 7. الطريقة "الشريرة الذكية": الاستغلال المتخفي</h2>
+    
+    <div class="feature-box">
+        <h3 style="margin-top: 0;"><span class="emoji">🤫</span> الاستخدام المتخفي (أكثر خطورة)</h3>
+        <p>بدلاً من القمع الصريح، يمكنك استخدام النظام بشكل <strong>مخفي وخطير</strong>:</p>
+        
+        <h4>الاستراتيجية "الخبيثة":</h4>
+        <ul>
+            <li><strong>إظهار المرونة:</strong> قل للموظفين "النظام مرن" بينما تضع إعدادات صارمة</li>
+            <li><strong>جمع البيانات بصمت:</strong> اجمع كل البيانات بدون إخبار الموظفين بالتفاصيل</li>
+            <li><strong>استخدام البيانات لاحقاً:</strong> احتفظ بالبيانات واستخدمها عند الحاجة (ترقية، فصل، رفض طلبات)</li>
+            <li><strong>الإنكار:</strong> إذا سأل موظف، أنكر أنك تستخدم النظام ضدهم</li>
+            <li><strong>التلاعب النفسي:</strong> استخدم البيانات لتجعله يشعر بالذنب ("أنت دائماً متأخر")</li>
+        </ul>
+    </div>
+    
+    <div class="section-divider"></div>
+    
+    <h2><span class="emoji">💀</span> 8. التحذير النهائي</h2>
+    
+    <div class="danger-box">
+        <h3 style="margin-top: 0; text-align: center; color: #ff4444;"><span class="emoji">⚡</span> استخدام هذا الدليل بمسؤولية</h3>
+        
+        <p style="text-align: center; font-size: 18px; margin: 20px 0;">هذا الدليل يوضح <strong>القدرات المتقدمة</strong> للنظام. لكن تذكر:</p>
+        
+        <ul style="list-style: none; margin: 30px 0;">
+            <li style="margin: 15px 0; font-size: 17px;">⚠️ <strong>الاستخدام القمعي:</strong> سيدمر بيئة العمل وسمعة الشركة</li>
+            <li style="margin: 15px 0; font-size: 17px;">⚠️ <strong>المشاكل القانونية:</strong> قد تعرضك للمساءلة القانونية</li>
+            <li style="margin: 15px 0; font-size: 17px;">⚠️ <strong>فقدان المواهب:</strong> الموظفون المتميزون سيتركون العمل</li>
+            <li style="margin: 15px 0; font-size: 17px;">⚠️ <strong>انخفاض الإنتاجية:</strong> الضغط النفسي يقلل الإنتاجية</li>
+            <li style="margin: 15px 0; font-size: 17px;">⚠️ <strong>السمعة السيئة:</strong> الشركة ستصبح معروفة بـ "المراقبة القمعية"</li>
+        </ul>
+        
+        <p style="text-align: center; font-size: 18px; margin-top: 30px; color: #ff9800; font-weight: bold;">استخدم النظام <strong>بعدالة وشفافية</strong> - هذا أفضل للشركة والموظفين على المدى الطويل.</p>
+    </div>
+    
+    <div class="footer">
+        <p><strong>نظام صرح الإتقان</strong> - Sarh Al-Itqan Attendance System</p>
+        <p style="margin-top: 10px;"><strong>الإصدار:</strong> 3.5.0</p>
+        <p style="margin-top: 10px;"><strong>تاريخ الإنشاء:</strong> <?php echo date('Y-m-d'); ?></p>
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #444;">
+            <p style="text-align: center; font-size: 14px; color: #888; font-weight: bold;">
+                جميع الحقوق محفوظة - الملكية الفكرية والكود المصدري
+            </p>
+            <p style="text-align: center; font-size: 16px; color: #ff6f00; font-weight: bold; margin-top: 10px;">
+                © عبدالحكيم خلف المذهول
+            </p>
+        </div>
+        <p style="margin-top: 20px; font-style: italic; color: #666; text-align: center;">لفتح هذا الملف كـ PDF، افتحه في المتصفح واضغط Ctrl+P ثم اختر "حفظ كـ PDF"</p>
+    </div>
+</body>
+</html>

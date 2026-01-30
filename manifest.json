@@ -1,0 +1,99 @@
+{
+  "name": "صرح الإتقان - نظام السيطرة الميدانية",
+  "short_name": "صرح",
+  "description": "نظام السيطرة الميدانية لإدارة الحضور والعمليات",
+  "lang": "ar",
+  "dir": "rtl",
+  "id": "/app/",
+  "start_url": "/app/index.php?source=pwa",
+  "scope": "/app/",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
+  "orientation": "portrait",
+  "theme_color": "#ff6f00",
+  "background_color": "#f0f2f5",
+  "categories": [
+    "business",
+    "productivity"
+  ],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/app/assets/images/pwa/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/app/assets/images/pwa/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/app/assets/images/pwa/icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/app/assets/images/pwa/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/app/assets/images/pwa/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "لوحة التحكم الرئيسية"
+    },
+    {
+      "src": "/app/assets/images/pwa/screenshot-narrow.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "شاشة تسجيل الحضور"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "تسجيل حضور",
+      "short_name": "حضور",
+      "description": "تسجيل الحضور السريع",
+      "url": "/app/checkin.php?source=shortcut",
+      "icons": [
+        {
+          "src": "/app/assets/images/pwa/shortcut-checkin.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "الإشعارات",
+      "short_name": "إشعارات",
+      "description": "عرض الإشعارات",
+      "url": "/app/notifications.php?source=shortcut",
+      "icons": [
+        {
+          "src": "/app/assets/images/pwa/shortcut-notifications.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "handle_links": "preferred",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  }
+}

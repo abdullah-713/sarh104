@@ -1,0 +1,735 @@
+/**
+ * SARH System - Attendance Page Styles v4.0
+ * تصميم مبسط وأقل ازدحاماً
+ */
+
+:root {
+    --primary: #00ff88;
+    --primary-dim: rgba(0, 255, 136, 0.2);
+    --primary-glow: rgba(0, 255, 136, 0.5);
+    --secondary: #00ccff;
+    --danger: #ff4757;
+    --warning: #ffa502;
+    --success: #00ff88;
+    --dark: #0a0a0a;
+    --dark-panel: rgba(10, 10, 10, 0.9);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Tajawal', sans-serif;
+    background: var(--dark);
+    color: #fff;
+}
+
+#attendance-app {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* ========================================
+   MAP
+   ======================================== */
+#map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: var(--dark);
+}
+
+.leaflet-container {
+    background: var(--dark) !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+.leaflet-control-attribution {
+    display: none !important;
+}
+
+/* ========================================
+   UI LAYER
+   ======================================== */
+#ui-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+#ui-layer.active {
+    opacity: 1;
+}
+
+#ui-layer > * {
+    pointer-events: auto;
+}
+
+/* ========================================
+   TOP BAR
+   ======================================== */
+#top-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 12px 15px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 12px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%);
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.info-item i {
+    color: var(--primary);
+}
+
+#connection-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: var(--dark-panel);
+    font-size: 12px;
+}
+
+#connection-status.connected { color: var(--success); }
+#connection-status.disconnected { color: var(--danger); }
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* ========================================
+   STATUS BADGE
+   ======================================== */
+.status-badge {
+    position: absolute;
+    top: calc(env(safe-area-inset-top, 0px) + 55px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    border: 1px solid transparent;
+}
+
+.status-badge.wait {
+    background: rgba(255, 165, 0, 0.2);
+    border-color: var(--warning);
+    color: var(--warning);
+}
+
+.status-badge.success {
+    background: rgba(0, 255, 136, 0.2);
+    border-color: var(--success);
+    color: var(--success);
+}
+
+.status-badge.danger {
+    background: rgba(255, 71, 87, 0.2);
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.status-badge.warning {
+    background: rgba(255, 165, 0, 0.2);
+    border-color: var(--warning);
+    color: var(--warning);
+}
+
+/* ========================================
+   DISTANCE INFO
+   ======================================== */
+#distance-info {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    background: var(--dark-panel);
+    padding: 12px 25px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+#distance-info.hidden {
+    display: none;
+}
+
+.distance-value {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+#dist-unit {
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.distance-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 2px;
+}
+
+#distance-info.in-range .distance-value { color: var(--success); }
+#distance-info.out-of-range .distance-value { color: var(--warning); }
+
+/* ========================================
+   BOTTOM PANEL
+   ======================================== */
+#btmPanel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+    background: linear-gradient(to top, var(--dark) 0%, rgba(0, 0, 0, 0.9) 50%, transparent 100%);
+    z-index: 20;
+}
+
+.checkin-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.checkin-info .text-success {
+    color: var(--success);
+}
+
+/* ========================================
+   ACTION BUTTON
+   ======================================== */
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 16px 30px;
+    border: none;
+    border-radius: 15px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-btn.checkout {
+    background: linear-gradient(135deg, var(--danger) 0%, #cc0033 100%);
+    color: #fff;
+}
+
+.action-btn.checkout:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 71, 87, 0.4);
+}
+
+.action-btn.done {
+    background: #333;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.action-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.action-btn.ready {
+    animation: readyPulse 2s ease infinite;
+}
+
+@keyframes readyPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.4); }
+    50% { box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+}
+
+/* ========================================
+   LOCATION BUTTON
+   ======================================== */
+.loc-btn {
+    position: absolute;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 30px);
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    background: var(--dark-panel);
+    color: var(--primary);
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 25;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s ease;
+    border: 2px solid rgba(0, 255, 136, 0.3);
+}
+
+.loc-btn.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.loc-btn:hover {
+    background: rgba(0, 255, 136, 0.1);
+    border-color: var(--primary);
+}
+
+.loc-btn.loading i {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+/* ========================================
+   BACK BUTTON
+   ======================================== */
+.back-btn {
+    position: absolute;
+    top: calc(env(safe-area-inset-top, 0px) + 12px);
+    left: 15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--dark-panel);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 18px;
+    z-index: 30;
+    border: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+.back-btn:hover {
+    background: rgba(0, 255, 136, 0.1);
+}
+
+/* ========================================
+   COLLEAGUES PANEL
+   ======================================== */
+#live-colleagues-panel {
+    position: absolute;
+    top: calc(env(safe-area-inset-top, 0px) + 12px);
+    right: 15px;
+    z-index: 30;
+}
+
+.colleagues-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 20px;
+    background: var(--dark-panel);
+    color: var(--secondary);
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid rgba(0, 204, 255, 0.3);
+}
+
+.colleagues-toggle:hover {
+    background: rgba(0, 204, 255, 0.1);
+}
+
+#colleagues-count {
+    background: var(--secondary);
+    color: var(--dark);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.colleagues-list {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    width: 260px;
+    max-height: 350px;
+    background: rgba(0, 0, 0, 0.95);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.colleagues-list.hidden {
+    display: none;
+}
+
+.colleagues-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.colleagues-header h4 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    margin: 0;
+}
+
+.colleagues-header i {
+    color: var(--secondary);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.colleagues-items {
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.no-colleagues {
+    text-align: center;
+    padding: 20px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 13px;
+}
+
+.colleague-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.colleague-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.colleague-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.colleague-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.colleague-name {
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.colleague-meta {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ========================================
+   USER MARKER
+   ======================================== */
+.user-marker-container {
+    background: transparent !important;
+    border: none !important;
+}
+
+.user-marker {
+    background: var(--primary);
+    border: 3px solid #fff;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px var(--primary-glow);
+    position: relative;
+    z-index: 10;
+}
+
+.user-marker i {
+    color: var(--dark);
+    font-size: 12px;
+}
+
+.user-marker-pulse {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--primary-dim);
+    animation: markerPulse 2s infinite;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+}
+
+@keyframes markerPulse {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+}
+
+/* ========================================
+   BRANCH RADAR OVERLAY
+   ======================================== */
+.branch-radar-overlay {
+    background: none !important;
+    border: none !important;
+    pointer-events: none;
+}
+
+.radar-sweep-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.radar-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 10px currentColor);
+}
+
+.radar-label {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    z-index: 10;
+}
+
+.radar-sweep {
+    opacity: 0.6;
+}
+
+.radar-line {
+    opacity: 0.9;
+}
+
+/* ========================================
+   BRANCH MARKER
+   ======================================== */
+.branch-marker {
+    background: transparent !important;
+    border: none !important;
+}
+
+.branch-marker-inner {
+    width: 30px;
+    height: 30px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.branch-marker-inner i {
+    color: var(--dark);
+    font-size: 14px;
+}
+
+/* ========================================
+   COLLEAGUE MARKER
+   ======================================== */
+.colleague-marker {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50%;
+    background: var(--secondary);
+    border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--dark);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.colleague-marker.out-of-geofence {
+    background: var(--warning);
+}
+
+/* ========================================
+   AWOL OVERLAY
+   ======================================== */
+#awol-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#awol-overlay.active {
+    opacity: 1;
+    animation: awolFlash 0.3s ease infinite alternate;
+}
+
+#awol-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 30%, rgba(255, 0, 0, 0.3) 100%);
+}
+
+#awol-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 6px solid rgba(255, 0, 0, 0.6);
+}
+
+@keyframes awolFlash {
+    0% { background: rgba(255, 0, 0, 0); }
+    100% { background: rgba(255, 0, 0, 0.15); }
+}
+
+.awol-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 20px 35px;
+    border-radius: 15px;
+    border: 3px solid var(--danger);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--danger);
+    animation: bounce 0.5s ease infinite alternate;
+    pointer-events: auto;
+}
+
+.awol-message i {
+    font-size: 30px;
+    animation: shake 0.3s ease infinite;
+}
+
+@keyframes bounce {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    100% { transform: translate(-50%, -50%) scale(1.03); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 400px) {
+    .status-badge {
+        font-size: 11px;
+        padding: 8px 15px;
+    }
+    
+    .distance-value {
+        font-size: 28px;
+    }
+    
+    .action-btn {
+        font-size: 16px;
+        padding: 14px 25px;
+    }
+    
+    .colleagues-list {
+        width: 220px;
+    }
+    
+    .awol-message {
+        font-size: 16px;
+        padding: 15px 25px;
+    }
+}

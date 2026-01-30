@@ -1,0 +1,607 @@
+/**
+ * ╔══════════════════════════════════════════════════════════════════════════════╗
+ * ║           SARH SYSTEM - COGNITIVE TRAP STYLES                                ║
+ * ╚══════════════════════════════════════════════════════════════════════════════╝
+ */
+
+/* ========================================
+   OVERLAY - MILITARY RADAR THEME
+   ======================================== */
+.trap-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    padding: 1rem;
+    animation: trapFadeIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* Military radar screen effect */
+    background-image: 
+        radial-gradient(circle at 20% 20%, rgba(0, 255, 0, 0.02) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 255, 0, 0.01) 0%, transparent 50%);
+}
+
+.trap-overlay.closing {
+    animation: trapFadeOut 0.3s ease forwards;
+}
+
+@keyframes trapFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes trapFadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* ========================================
+   MODAL BASE - DARK MILITARY THEME
+   ======================================== */
+.trap-modal {
+    background: #000000;
+    border: 2px solid #00ff00;
+    border-radius: 20px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 
+        0 25px 80px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(0, 255, 0, 0.2),
+        inset 0 1px 0 rgba(0, 255, 0, 0.1);
+    overflow: hidden;
+    animation: trapSlideIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    backdrop-filter: blur(20px);
+}
+
+@keyframes trapSlideIn {
+    from { transform: translateY(-40px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.trap-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 1.25rem 1.75rem;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #00ff00;
+    background: rgba(0, 0, 0, 0.8);
+    border-bottom: 1px solid rgba(0, 255, 0, 0.3);
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.trap-modal-header i {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 0 5px rgba(0, 255, 0, 0.5));
+}
+
+.trap-modal-body {
+    padding: 1.75rem;
+    background: #000000;
+    color: #ffffff;
+}
+
+.trap-modal-footer {
+    display: flex;
+    gap: 12px;
+    padding: 1.25rem 1.75rem;
+    background: rgba(0, 0, 0, 0.9);
+    border-top: 1px solid rgba(0, 255, 0, 0.2);
+}
+
+/* ========================================
+   ERROR THEME (Data Leak)
+   ======================================== */
+.trap-error-theme .trap-modal-header {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: #fff;
+}
+
+.trap-warning-text {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+    color: #856404;
+    font-size: 0.95rem;
+}
+
+.trap-leaked-data {
+    background: #1a1a2e;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.leaked-header {
+    background: #16213e;
+    color: #fff;
+    padding: 0.875rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.leaked-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.leaked-table td {
+    padding: 0.625rem 1.25rem;
+    border-bottom: 1px solid #2a2a4a;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.leaked-table td:first-child {
+    color: #888;
+    width: 45%;
+}
+
+.leaked-table tr.sensitive td {
+    background: rgba(231, 76, 60, 0.15);
+}
+
+.leaked-table tr.sensitive td:last-child {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+/* ========================================
+   OFFICIAL THEME (Recruitment)
+   ======================================== */
+.trap-official-theme .trap-modal-header {
+    background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+    color: #fff;
+}
+
+.trap-badge {
+    margin-right: auto;
+    background: rgba(231, 76, 60, 0.9);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.message-meta {
+    background: #f8f9fa;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+    color: #495057;
+    line-height: 1.7;
+}
+
+.message-content {
+    padding: 1.25rem;
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+}
+
+.message-body {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #495057;
+    margin-bottom: 1rem;
+}
+
+.message-footer {
+    font-size: 0.8rem;
+    color: #dc3545;
+    font-style: italic;
+    border-top: 1px dashed #e9ecef;
+    padding-top: 1rem;
+    margin: 0;
+}
+
+.trap-recruitment-actions {
+    flex-wrap: wrap;
+}
+
+.trap-recruitment-actions .trap-btn {
+    flex: 1 1 calc(50% - 5px);
+    min-width: 140px;
+}
+
+/* ========================================
+   DEBUG PANEL
+   ======================================== */
+.trap-debug-panel {
+    position: fixed;
+    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+    border: 2px solid #00b894;
+    border-radius: 14px;
+    padding: 1.25rem;
+    min-width: 300px;
+    max-width: 350px;
+    z-index: 99998;
+    box-shadow: 0 15px 50px rgba(0, 184, 148, 0.3);
+    animation: debugSlide 0.35s ease;
+}
+
+.trap-debug-panel.closing {
+    animation: debugSlideOut 0.25s ease forwards;
+}
+
+@keyframes debugSlide {
+    from { transform: translateY(-15px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes debugSlideOut {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-15px); opacity: 0; }
+}
+
+.debug-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #00b894;
+    font-weight: 600;
+    margin-bottom: 0.875rem;
+    font-size: 0.95rem;
+}
+
+.debug-header i {
+    font-size: 1.2rem;
+}
+
+.debug-close {
+    margin-right: auto;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.debug-close:hover {
+    color: #fff;
+}
+
+.debug-message {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+}
+
+.debug-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.debug-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0.875rem 1.125rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: right;
+}
+
+.debug-option:hover {
+    background: rgba(0, 184, 148, 0.2);
+    border-color: #00b894;
+    transform: translateX(-3px);
+}
+
+.debug-option i {
+    color: #00b894;
+    font-size: 1.1rem;
+}
+
+.debug-badge {
+    margin-right: auto;
+    color: #f39c12;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* ========================================
+   GHOST BUTTON
+   ======================================== */
+.trap-ghost-button {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 0.875rem 1.75rem;
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-family: inherit;
+    cursor: pointer;
+    z-index: 99997;
+    box-shadow: 0 8px 30px rgba(243, 156, 18, 0.5);
+    transition: all 0.3s ease;
+    animation: ghostPulse 1.8s ease-in-out infinite;
+}
+
+.trap-ghost-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(243, 156, 18, 0.6);
+}
+
+.trap-ghost-button:disabled {
+    animation: none;
+    opacity: 0.85;
+    cursor: wait;
+}
+
+.trap-ghost-button i {
+    font-size: 1.6rem;
+}
+
+.trap-ghost-button span {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.trap-ghost-button small {
+    font-size: 0.75rem;
+    opacity: 0.85;
+}
+
+.trap-ghost-button.closing {
+    animation: ghostFadeOut 0.3s ease forwards;
+}
+
+@keyframes ghostPulse {
+    0%, 100% { box-shadow: 0 8px 30px rgba(243, 156, 18, 0.5); }
+    50% { box-shadow: 0 8px 40px rgba(243, 156, 18, 0.75); }
+}
+
+@keyframes ghostFadeOut {
+    to { opacity: 0; transform: scale(0.9); }
+}
+
+/* ========================================
+   CONFIDENTIAL TOAST
+   ======================================== */
+.trap-toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-120%);
+    max-width: 420px;
+    width: calc(100% - 40px);
+    background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+    border-radius: 14px;
+    padding: 1.125rem 1.25rem;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    z-index: 99996;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.trap-toast.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+.trap-toast.closing {
+    transform: translateX(-50%) translateY(-120%);
+}
+
+.trap-confidential {
+    border-right: 4px solid #e74c3c;
+}
+
+.toast-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(231, 76, 60, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.toast-icon i {
+    color: #e74c3c;
+    font-size: 1.4rem;
+}
+
+.toast-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.toast-content strong {
+    color: #fff;
+    font-size: 0.95rem;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.toast-content p {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.85rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.toast-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.toast-action {
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    background: transparent;
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.toast-action:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ========================================
+   BUTTONS - MILITARY RADAR STYLE
+   ======================================== */
+.trap-btn {
+    flex: 1;
+    min-height: 48px;           /* Thumb-friendly */
+    padding: 1rem 1.5rem;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.trap-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.trap-btn-danger {
+    background: linear-gradient(135deg, #ff0040 0%, #cc0033 100%);
+    border-color: rgba(255, 0, 64, 0.5);
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.trap-btn-danger:hover {
+    background: linear-gradient(135deg, #ff1a5a 0%, #e60039 100%);
+    border-color: #ff0040;
+    box-shadow: 
+        0 6px 18px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 0, 64, 0.4);
+}
+
+.trap-btn-success {
+    background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
+    border-color: rgba(0, 255, 0, 0.5);
+    color: #000;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-weight: 700;
+}
+
+.trap-btn-success:hover {
+    background: linear-gradient(135deg, #1aff1a 0%, #00e600 100%);
+    border-color: #00ff00;
+    box-shadow: 
+        0 6px 18px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(0, 255, 0, 0.4);
+}
+
+.trap-btn-warning {
+    background: linear-gradient(135deg, #ffaa00 0%, #e69500 100%);
+    border-color: rgba(255, 170, 0, 0.5);
+    color: #000;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-weight: 700;
+}
+
+.trap-btn-warning:hover {
+    background: linear-gradient(135deg, #ffbb1a 0%, #ffa500 100%);
+    border-color: #ffaa00;
+    box-shadow: 
+        0 6px 18px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 170, 0, 0.4);
+}
+
+.trap-btn-secondary {
+    background: linear-gradient(135deg, #333333 0%, #1a1a1a 100%);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+.trap-btn-secondary:hover {
+    background: linear-gradient(135deg, #4d4d4d 0%, #333333 100%);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 480px) {
+    .trap-modal {
+        max-width: 100%;
+        margin: 0.5rem;
+        border-radius: 12px;
+    }
+    
+    .trap-modal-footer {
+        flex-direction: column;
+    }
+    
+    .trap-recruitment-actions .trap-btn {
+        flex: 1 1 100%;
+    }
+    
+    .trap-debug-panel {
+        left: 10px !important;
+        right: 10px !important;
+        width: auto !important;
+        min-width: auto;
+        max-width: none;
+    }
+    
+    .trap-ghost-button {
+        left: 10px !important;
+        right: 10px !important;
+        width: auto !important;
+    }
+    
+    .trap-toast {
+        width: calc(100% - 20px);
+        flex-wrap: wrap;
+    }
+    
+    .toast-actions {
+        width: 100%;
+        flex-direction: row;
+        margin-top: 10px;
+    }
+    
+    .toast-action {
+        flex: 1;
+    }
+}

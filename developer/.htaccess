@@ -1,0 +1,44 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║           PROTECTION - Developer Tools (Production Security)                 ║
+# ║           حماية أدوات المطور - منع الوصول في بيئة الإنتاج                    ║
+# ╠══════════════════════════════════════════════════════════════════════════════╣
+# ║  CRITICAL: This folder contains database tools and sensitive operations      ║
+# ║  يجب منع الوصول لهذا المجلد تماماً في بيئة الإنتاج                            ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+# Deny all access - منع الوصول بالكامل
+<RequireAll>
+    Require all denied
+</RequireAll>
+
+# Alternative for older Apache versions (uncomment if needed)
+# Order deny,allow
+# Deny from all
+
+# Prevent directory listing - منع عرض محتويات المجلد
+Options -Indexes
+
+# Deny specific file types - منع الوصول لملفات معينة
+<FilesMatch "\.(php|sql|log|ini|bak|backup|old)$">
+    Require all denied
+</FilesMatch>
+
+# Alternative for older Apache
+# <FilesMatch "\.(php|sql|log|ini|bak|backup|old)$">
+#     Order deny,allow
+#     Deny from all
+# </FilesMatch>
+
+# Set security headers - رؤوس الأمان
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# NOTE: For complete security, consider:
+# 1. Moving this folder outside web root
+# 2. Using server-level IP whitelist (allow only specific IPs)
+# 3. Adding authentication layer
+# ═══════════════════════════════════════════════════════════════════════════════

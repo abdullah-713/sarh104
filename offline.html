@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ff6f00">
+    <title>غير متصل بالإنترنت</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+      body {
+        margin: 0;
+        font-family: "Tajawal", "Segoe UI", Tahoma, sans-serif;
+        background: #f0f2f5;
+        color: #1a1a2e;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 24px;
+        text-align: center;
+      }
+      .card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        max-width: 420px;
+        width: 100%;
+      }
+      .card h1 {
+        margin: 0 0 12px;
+        font-size: 1.4rem;
+        color: #ff6f00;
+      }
+      .card p {
+        margin: 0 0 20px;
+        line-height: 1.8;
+        font-size: 1rem;
+      }
+      .card button {
+        background: #ff6f00;
+        color: #ffffff;
+        border: none;
+        border-radius: 999px;
+        padding: 12px 20px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>أنت غير متصل بالإنترنت</h1>
+      <p>يمكنك تصفح المحتوى المخزّن مؤقتاً. تحقق من اتصالك ثم حاول مرة أخرى.</p>
+      <button type="button" onclick="location.reload()">إعادة المحاولة</button>
+    </div>
+  </body>
+</html>
