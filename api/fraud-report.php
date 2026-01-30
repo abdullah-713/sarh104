@@ -79,6 +79,14 @@ try {
         case 'POST':
             $input = json_decode(file_get_contents('php://input'), true);
             
+            // التحقق من CSRF Token
+            $csrf_token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? ($input['csrf_token'] ?? '');
+            if (empty($csrf_token) || !isset($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $csrf_token)) {
+                http_response_code(403);
+                echo json_encode(['success' => false, 'message' => 'رمز أمان غير صالح']);
+                exit;
+            }
+            
             $detection_type = htmlspecialchars($input['type'] ?? 'unknown', ENT_QUOTES, 'UTF-8');
             $details = $input['details'] ?? [];
             $suspicion_score = min(100, max(0, intval($input['score'] ?? 0)));

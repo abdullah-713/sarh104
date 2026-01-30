@@ -53,7 +53,20 @@ $action = $input['action'] ?? '';
 // ═══════════════════════════════════════════════════════════════════════════════
 // قائمة الجداول المحمية (لا يمكن حذفها أو تعديل هيكلها)
 // ═══════════════════════════════════════════════════════════════════════════════
-$protectedTables = []; // يمكن إضافة جداول محمية هنا إذا لزم الأمر
+$protectedTables = ['users', 'roles', 'permissions', 'settings', 'branches'];
+$readOnlyTables = ['activity_logs', 'login_logs', 'fraud_detection_logs', 'audit_logs'];
+$blockedTables = ['system_config', 'migrations']; // لا يمكن الوصول إليها
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// التحقق من الجداول المحظورة
+// ═══════════════════════════════════════════════════════════════════════════════
+function isBlockedTable(string $table, array $blockedTables): bool {
+    return in_array($table, $blockedTables);
+}
+
+function isReadOnlyTable(string $table, array $readOnlyTables): bool {
+    return in_array($table, $readOnlyTables);
+}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // التحقق من صحة اسم الجدول

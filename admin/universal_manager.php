@@ -29,6 +29,13 @@ if ($_SESSION['role_level'] < 10) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// قائمة الجداول المحمية (لا يمكن حذف أو تعديل بعض البيانات فيها)
+// ═══════════════════════════════════════════════════════════════════════════════
+$protectedTables = ['users', 'roles', 'permissions', 'settings'];
+$readOnlyTables = ['activity_logs', 'login_logs', 'fraud_detection_logs'];
+$blockedTables = ['system_config']; // لا يمكن الوصول إليها نهائياً
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // المتغيرات
 // ═══════════════════════════════════════════════════════════════════════════════
 $selectedTable = $_GET['table'] ?? '';
@@ -43,6 +50,20 @@ $rows = [];
 $totalRows = 0;
 $primaryKey = 'id';
 $jsonColumns = [];
+
+// التحقق من أن اسم الجدول لا يحتوي على أحرف خطيرة
+if ($selectedTable && !preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $selectedTable)) {
+    log_activity('sql_injection_attempt', 'security', 'محاولة SQL Injection في اسم الجدول: ' . $selectedTable, current_user_id(), 'user');
+    $selectedTable = '';
+    flash('danger', 'اسم جدول غير صالح');
+}
+
+// التحقق من الجداول المحظورة
+if ($selectedTable && in_array($selectedTable, $blockedTables)) {
+    log_activity('blocked_table_access', 'security', 'محاولة وصول لجدول محظور: ' . $selectedTable, current_user_id(), 'user');
+    $selectedTable = '';
+    flash('danger', 'هذا الجدول محمي ولا يمكن الوصول إليه');
+}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // جلب قائمة الجداول

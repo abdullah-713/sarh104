@@ -15,10 +15,41 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     die('غير مصرح');
 }
 
+// التحقق من CSRF للحماية من هجمات التزوير
+$csrf_token = $_GET['token'] ?? '';
+if (empty($csrf_token) || !isset($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $csrf_token)) {
+    http_response_code(403);
+    die('رمز أمان غير صالح');
+}
+
+// التحقق من صحة القيم المدخلة
+$allowed_formats = ['csv', 'excel'];
+$allowed_types = ['attendance', 'employees', 'performance'];
+
 $format = $_GET['format'] ?? 'csv';
 $type = $_GET['type'] ?? 'attendance';
 $period = intval($_GET['period'] ?? 30);
 $branch = $_GET['branch'] ?? 'all';
+
+// التحقق من القيم المسموحة
+if (!in_array($format, $allowed_formats)) {
+    http_response_code(400);
+    die('صيغة غير مدعومة');
+}
+
+if (!in_array($type, $allowed_types)) {
+    http_response_code(400);
+    die('نوع تقرير غير صالح');
+}
+
+// تحديد الفترة الزمنية (حد أقصى سنة)
+$period = min(365, max(1, $period));
+
+// التحقق من صحة branch
+if ($branch !== 'all' && !ctype_digit($branch)) {
+    http_response_code(400);
+    die('معرف فرع غير صالح');
+}
 
 // إعداد الفلتر
 $branch_filter = '';

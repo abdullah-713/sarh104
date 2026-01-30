@@ -144,6 +144,14 @@ try {
         case 'POST':
             $input = json_decode(file_get_contents('php://input'), true);
             
+            // التحقق من CSRF Token
+            $csrf_token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? ($input['csrf_token'] ?? '');
+            if (empty($csrf_token) || !isset($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $csrf_token)) {
+                http_response_code(403);
+                echo json_encode(['success' => false, 'message' => 'رمز أمان غير صالح']);
+                exit;
+            }
+            
             $mood_score = min(5, max(1, intval($input['mood_score'] ?? 3)));
             $energy_level = min(5, max(1, intval($input['energy_level'] ?? 3)));
             $stress_level = min(5, max(1, intval($input['stress_level'] ?? 3)));
