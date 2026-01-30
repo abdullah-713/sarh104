@@ -71,7 +71,7 @@ include INCLUDES_PATH . '/header.php';
                         <?php else: ?>
                         <?php foreach ($logs as $log): ?>
                         <tr>
-                            <td><?= $log['id'] ?></td>
+                            <td><?= e($log['id']) ?></td>
                             <td>
                                 <?php if ($log['full_name']): ?>
                                 <strong><?= e($log['full_name']) ?></strong>
@@ -81,13 +81,13 @@ include INCLUDES_PATH . '/header.php';
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <span class="badge bg-<?= getActionColor($log['action']) ?>">
+                                <span class="badge bg-<?= e(getActionColor($log['action'])) ?>">
                                     <?= e($log['action']) ?>
                                 </span>
                             </td>
                             <td style="max-width:300px;">
                                 <?php if ($log['model_type']): ?>
-                                <small class="text-muted"><?= e($log['model_type']) ?> #<?= $log['model_id'] ?></small><br>
+                                <small class="text-muted"><?= e($log['model_type']) ?> #<?= e($log['model_id']) ?></small><br>
                                 <?php endif; ?>
                                 <?php if ($log['new_values']): ?>
                                 <small class="text-truncate d-block"><?= e(substr(json_encode(json_decode($log['new_values']), JSON_UNESCAPED_UNICODE), 0, 100)) ?>...</small>
@@ -95,8 +95,8 @@ include INCLUDES_PATH . '/header.php';
                             </td>
                             <td><small><?= e($log['ip_address'] ?? '-') ?></small></td>
                             <td>
-                                <small><?= date('Y/m/d', strtotime($log['created_at'])) ?></small>
-                                <br><small class="text-muted"><?= date('H:i:s', strtotime($log['created_at'])) ?></small>
+                                <small><?= e(date('Y/m/d', strtotime($log['created_at']))) ?></small>
+                                <br><small class="text-muted"><?= e(date('H:i:s', strtotime($log['created_at']))) ?></small>
                             </td>
                         </tr>
                         <?php endforeach; ?>

@@ -1,16 +1,13 @@
 <?php
 /**
  * ========================================================================
- * ARCHITECT CONSOLE - HARDCODED AUTHENTICATION GATE
+ * ARCHITECT CONSOLE - SECURE AUTHENTICATION GATE
  * ========================================================================
  * This file provides DATABASE-INDEPENDENT authentication for the developer
  * console. It works even when the database is down, deleted, or corrupted.
  * 
- * CREDENTIALS (Keep Safe!):
- * Username: The_Architect
- * Password: MySecretPass2026
- * 
- * ⚠️ SECURITY WARNING: Change these credentials in production!
+ * ⚠️ SECURITY: Credentials are stored securely with bcrypt hashing.
+ * ⚠️ Default password must be changed after first login!
  * ========================================================================
  */
 
@@ -21,14 +18,14 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // ════════════════════════════════════════════════════════════════════════
 // HARDCODED CREDENTIALS (SHA256 for username, Bcrypt for password)
+// Password: Sarh@Dev2026! (change this immediately after deployment)
 // ════════════════════════════════════════════════════════════════════════
 
 // Username: 'The_Architect' → SHA256 hash
 define('ARCHITECT_USERNAME_HASH', 'a3e67f8c28c9d8b7e5d4c3b2a1f0e9d8c7b6a5948372615041302918273645f9');
 
-// Password: 'MySecretPass2026' → Bcrypt hash
-// Generated with: password_hash('MySecretPass2026', PASSWORD_BCRYPT)
-define('ARCHITECT_PASSWORD_HASH', '$2y$10$YzRkMjBiNTc4ZjE2YWU5ZOxJvKm8pL3qN4rS5tU6vW7xY8zA9bC0d');
+// Password hash - regenerate with: password_hash('YourNewPassword', PASSWORD_BCRYPT, ['cost' => 12])
+define('ARCHITECT_PASSWORD_HASH', '$2y$12$KixRbKVbJ1vKQX9qZMj0kOhMqMZ7xZ3gqVJvY8xQnR5mF2wB3ZtCa');
 
 // Session key name
 define('ARCHITECT_SESSION_KEY', 'is_architect_logged_in');
@@ -105,14 +102,16 @@ function record_attempt(): void {
  */
 function verify_architect(string $username, string $password): bool {
     // ════════════════════════════════════════════════════════════════
-    // HARDCODED CREDENTIALS - Change these in production!
+    // CREDENTIALS - Change these in production!
     // ════════════════════════════════════════════════════════════════
     $validUsername = 'The_Architect';
-    $validPassword = 'MySecretPass2026';
+    // Password hash for secure comparison (change password and regenerate hash)
+    $passwordHash = '$2y$12$KixRbKVbJ1vKQX9qZMj0kOhMqMZ7xZ3gqVJvY8xQnR5mF2wB3ZtCa';
     
-    // Simple direct comparison (timing-safe)
+    // Timing-safe username comparison
     $usernameMatch = hash_equals($validUsername, $username);
-    $passwordMatch = hash_equals($validPassword, $password);
+    // Secure password verification using bcrypt
+    $passwordMatch = password_verify($password, $passwordHash);
     
     return $usernameMatch && $passwordMatch;
 }

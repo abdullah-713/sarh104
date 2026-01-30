@@ -22,7 +22,7 @@ RewriteRule ^config/ - [F,L]
 RewriteRule ^includes/ - [F,L]
 
     # Protect install folder after installation
-    # RewriteRule ^install/ - [F,L]
+    RewriteRule ^install/ - [F,L]
 </IfModule>
 
 # Security headers
@@ -30,6 +30,9 @@ RewriteRule ^includes/ - [F,L]
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"
     Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "geolocation=(self), camera=(self), microphone=()"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 </IfModule>
 
 # Protect PHP files from direct access in certain folders

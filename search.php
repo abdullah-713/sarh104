@@ -237,7 +237,7 @@ include INCLUDES_PATH . '/header.php';
                 <h5 class="mb-1">
                     <?php if ($totalResults > 0): ?>
                     <i class="bi bi-check-circle text-success me-2"></i>
-                    تم العثور على <strong class="text-primary"><?= $totalResults ?></strong> نتيجة
+                    تم العثور على <strong class="text-primary"><?= e((string)$totalResults) ?></strong> نتيجة
                     <?php else: ?>
                     <i class="bi bi-x-circle text-danger me-2"></i>
                     لا توجد نتائج

@@ -123,85 +123,90 @@ include INCLUDES_PATH . '/header.php';
 
 <!-- Modal إضافة موظف -->
 <div class="modal fade" id="addModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title">
                     <i class="bi bi-person-plus me-2"></i>
                     إضافة موظف جديد
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <form action="<?= url('api/admin/command_action.php') ?>" method="POST" id="addForm">
+            <form id="addEmployeeForm">
                 <div class="modal-body">
-                    <?= csrf_field() ?>
                     <input type="hidden" name="action" value="create_employee">
                     
-                    <div class="mb-3">
-                        <label class="form-label">الاسم الكامل *</label>
-                        <input type="text" name="full_name" class="form-control" required>
-                    </div>
-                    <div class="row g-3 mb-3">
-                        <div class="col-6">
-                            <label class="form-label">رقم الموظف *</label>
-                            <input type="text" name="emp_code" class="form-control" required>
-                        </div>
-                        <div class="col-6">
-                            <label class="form-label">اسم المستخدم *</label>
-                            <input type="text" name="username" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">البريد الإلكتروني *</label>
-                        <input type="email" name="email" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">كلمة المرور *</label>
-                        <input type="password" name="password" class="form-control" required minlength="6">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">صورة الموظف *</label>
-                        <div class="d-flex flex-column align-items-center">
-                            <div id="photoPreview" class="mb-3" style="display: none;">
-                                <img id="previewImg" src="" alt="Preview" class="img-thumbnail" style="max-width: 200px; max-height: 200px; object-fit: cover;">
-                            </div>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-outline-primary" id="capturePhotoBtn">
-                                    <i class="bi bi-camera me-1"></i> التقاط صورة
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary" id="clearPhotoBtn" style="display: none;">
-                                    <i class="bi bi-x-circle me-1"></i> إزالة
-                                </button>
-                            </div>
-                            <input type="hidden" name="photo_data" id="photoData">
-                            <small class="text-muted mt-2">يجب التقاط صورة للموظف أمام الكاميرا</small>
-                        </div>
-                        <video id="videoElement" autoplay style="display: none; max-width: 100%; border-radius: 8px;"></video>
-                        <canvas id="canvasElement" style="display: none;"></canvas>
-                    </div>
                     <div class="row g-3">
-                        <div class="col-6">
-                            <label class="form-label">الدور *</label>
+                        <div class="col-12">
+                            <label class="form-label">الاسم الكامل <span class="text-danger">*</span></label>
+                            <input type="text" name="full_name" class="form-control" required placeholder="أدخل الاسم الكامل">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">رقم الموظف <span class="text-danger">*</span></label>
+                            <input type="text" name="emp_code" class="form-control" required placeholder="EMP001" style="text-transform: uppercase;">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">اسم المستخدم <span class="text-danger">*</span></label>
+                            <input type="text" name="username" class="form-control" required placeholder="اسم الدخول">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">البريد الإلكتروني <span class="text-danger">*</span></label>
+                            <input type="email" name="email" class="form-control" required placeholder="example@domain.com">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">كلمة المرور <span class="text-danger">*</span></label>
+                            <input type="password" name="password" class="form-control" required minlength="6" placeholder="6 أحرف على الأقل">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">الدور <span class="text-danger">*</span></label>
                             <select name="role_id" class="form-select" required>
+                                <option value="">اختر الدور...</option>
                                 <?php foreach ($roles as $role): ?>
                                 <option value="<?= $role['id'] ?>"><?= e($role['name']) ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="col-6">
-                            <label class="form-label">الفرع *</label>
+                        <div class="col-md-6">
+                            <label class="form-label">الفرع <span class="text-danger">*</span></label>
                             <select name="branch_id" class="form-select" required>
+                                <option value="">اختر الفرع...</option>
                                 <?php foreach ($branches as $branch): ?>
                                 <option value="<?= $branch['id'] ?>"><?= e($branch['name']) ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
+                        
+                        <!-- صورة الموظف (اختياري) -->
+                        <div class="col-12">
+                            <label class="form-label">صورة الموظف <small class="text-muted">(اختياري)</small></label>
+                            <div class="d-flex flex-column align-items-center p-3 bg-light rounded">
+                                <div id="photoPreview" class="mb-3" style="display: none;">
+                                    <img id="previewImg" src="" alt="Preview" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-outline-primary" id="capturePhotoBtn">
+                                        <i class="bi bi-camera me-1"></i> التقاط صورة
+                                    </button>
+                                    <label class="btn btn-outline-success mb-0">
+                                        <i class="bi bi-upload me-1"></i> رفع صورة
+                                        <input type="file" id="uploadPhotoInput" accept="image/*" style="display: none;">
+                                    </label>
+                                    <button type="button" class="btn btn-outline-danger" id="clearPhotoBtn" style="display: none;">
+                                        <i class="bi bi-x-circle me-1"></i> إزالة
+                                    </button>
+                                </div>
+                                <input type="hidden" name="photo_data" id="photoData">
+                                <small class="text-muted mt-2">يمكنك التقاط صورة أو رفع صورة من جهازك</small>
+                            </div>
+                            <video id="videoElement" autoplay playsinline style="display: none; max-width: 100%; border-radius: 8px; margin-top: 10px;"></video>
+                            <canvas id="canvasElement" style="display: none;"></canvas>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-plus-lg me-1"></i> إضافة
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <i class="bi bi-plus-lg me-1"></i> إضافة الموظف
                     </button>
                 </div>
             </form>
@@ -209,7 +214,11 @@ include INCLUDES_PATH . '/header.php';
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+const API_URL = '<?= url("api/admin/command_action.php") ?>';
+const CSRF_TOKEN = '<?= csrf_token() ?>';
+
 let stream = null;
 let video = document.getElementById('videoElement');
 let canvas = document.getElementById('canvasElement');
@@ -218,126 +227,146 @@ let previewImg = document.getElementById('previewImg');
 let photoPreview = document.getElementById('photoPreview');
 let captureBtn = document.getElementById('capturePhotoBtn');
 let clearBtn = document.getElementById('clearPhotoBtn');
+let uploadInput = document.getElementById('uploadPhotoInput');
 
-// Capture photo button - initial handler
-let startCamera = async function() {
+// Start camera
+async function startCamera() {
     try {
-        // Request camera access
         stream = await navigator.mediaDevices.getUserMedia({ 
-            video: { 
-                facingMode: 'user',
-                width: { ideal: 640 },
-                height: { ideal: 480 }
-            } 
+            video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } } 
         });
-        
         video.srcObject = stream;
         video.style.display = 'block';
-        
-        // Change button to capture mode
-        captureBtn.innerHTML = '<i class="bi bi-camera-fill me-1"></i> التقاط';
-        captureBtn.removeEventListener('click', startCamera);
-        captureBtn.addEventListener('click', capturePhoto);
-        
+        captureBtn.innerHTML = '<i class="bi bi-camera-fill me-1"></i> التقاط الآن';
+        captureBtn.onclick = capturePhoto;
     } catch (err) {
-        console.error('Error accessing camera:', err);
-        Swal.fire('خطأ', 'لا يمكن الوصول إلى الكاميرا. يرجى التحقق من الصلاحيات.', 'error');
+        console.error('Camera error:', err);
+        Swal.fire('خطأ', 'لا يمكن الوصول إلى الكاميرا. تأكد من إعطاء الإذن.', 'error');
     }
-};
+}
 
-captureBtn.addEventListener('click', startCamera);
+captureBtn.onclick = startCamera;
 
-// Capture photo from video
+// Capture photo
 function capturePhoto() {
     if (!video || !stream) return;
-    
     const ctx = canvas.getContext('2d');
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     ctx.drawImage(video, 0, 0);
-    
-    // Convert to base64
     const photoData = canvas.toDataURL('image/jpeg', 0.8);
-    photoDataInput.value = photoData;
-    
-    // Show preview
-    previewImg.src = photoData;
+    setPhoto(photoData);
+    stopCamera();
+}
+
+// Set photo from any source
+function setPhoto(dataUrl) {
+    photoDataInput.value = dataUrl;
+    previewImg.src = dataUrl;
     photoPreview.style.display = 'block';
-    
-    // Stop video stream
-    stream.getTracks().forEach(track => track.stop());
-    stream = null;
-    video.style.display = 'none';
-    
-    // Reset button to start camera again
-    captureBtn.innerHTML = '<i class="bi bi-camera me-1"></i> التقاط صورة';
-    captureBtn.removeEventListener('click', capturePhoto);
-    captureBtn.addEventListener('click', startCamera);
-    
-    // Show clear button
     clearBtn.style.display = 'inline-block';
 }
 
+// Stop camera
+function stopCamera() {
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+    }
+    video.style.display = 'none';
+    captureBtn.innerHTML = '<i class="bi bi-camera me-1"></i> التقاط صورة';
+    captureBtn.onclick = startCamera;
+}
+
+// Upload photo
+uploadInput.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+        Swal.fire('خطأ', 'يجب اختيار ملف صورة', 'error');
+        return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+        Swal.fire('خطأ', 'حجم الصورة يجب أن يكون أقل من 5 ميجابايت', 'error');
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => setPhoto(e.target.result);
+    reader.readAsDataURL(file);
+});
+
 // Clear photo
-clearBtn.addEventListener('click', function() {
+clearBtn.onclick = function() {
     photoDataInput.value = '';
     previewImg.src = '';
     photoPreview.style.display = 'none';
     clearBtn.style.display = 'none';
-    
-    if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-        stream = null;
-        video.style.display = 'none';
-    }
-});
+    uploadInput.value = '';
+    stopCamera();
+};
 
-// Form submission
-document.getElementById('addForm').addEventListener('submit', async function(e) {
+// Form submission with JSON API
+document.getElementById('addEmployeeForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const form = this;
-    const btn = form.querySelector('[type="submit"]');
-    
-    // Validate photo
-    if (!photoDataInput.value) {
-        Swal.fire('تنبيه', 'يجب التقاط صورة للموظف', 'warning');
-        return;
-    }
+    const btn = document.getElementById('submitBtn');
     
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> جاري الإضافة...';
     
     try {
         const formData = new FormData(form);
-        const response = await fetch(form.action, {
+        const data = {
+            action: 'create_employee',
+            full_name: formData.get('full_name'),
+            emp_code: formData.get('emp_code'),
+            username: formData.get('username'),
+            email: formData.get('email'),
+            password: formData.get('password'),
+            role_id: parseInt(formData.get('role_id')),
+            branch_id: parseInt(formData.get('branch_id')),
+            photo_data: formData.get('photo_data') || '',
+            is_active: 1
+        };
+        
+        const response = await fetch(API_URL, {
             method: 'POST',
-            body: formData
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': CSRF_TOKEN
+            },
+            body: JSON.stringify(data)
         });
+        
         const result = await response.json();
         
         if (result.success) {
-            Swal.fire('تم!', 'تمت إضافة الموظف بنجاح', 'success').then(() => location.reload());
+            Swal.fire({
+                icon: 'success',
+                title: 'تم بنجاح!',
+                text: 'تمت إضافة الموظف بنجاح',
+                timer: 2000,
+                showConfirmButton: false
+            }).then(() => location.reload());
         } else {
-            Swal.fire('خطأ', result.message || 'حدث خطأ', 'error');
+            Swal.fire('خطأ', result.message || 'حدث خطأ غير متوقع', 'error');
         }
     } catch (err) {
-        Swal.fire('خطأ', 'حدث خطأ في الاتصال', 'error');
+        console.error('Error:', err);
+        Swal.fire('خطأ', 'حدث خطأ في الاتصال بالخادم', 'error');
     }
     
     btn.disabled = false;
-    btn.innerHTML = '<i class="bi bi-plus-lg me-1"></i> إضافة';
+    btn.innerHTML = '<i class="bi bi-plus-lg me-1"></i> إضافة الموظف';
 });
 
 // Cleanup on modal close
 document.getElementById('addModal').addEventListener('hidden.bs.modal', function() {
-    if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-        stream = null;
-    }
-    video.style.display = 'none';
+    stopCamera();
+    document.getElementById('addEmployeeForm').reset();
     photoPreview.style.display = 'none';
-    photoDataInput.value = '';
     clearBtn.style.display = 'none';
+    photoDataInput.value = '';
 });
 </script>
 
