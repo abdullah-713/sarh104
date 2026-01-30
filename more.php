@@ -139,6 +139,52 @@ include INCLUDES_PATH . '/header.php';
             </a>
         </div>
         
+        <!-- الشارات والإنجازات -->
+        <div class="col-6">
+            <a href="<?= url('badges.php') ?>" class="card text-decoration-none h-100 border-success">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-award fs-1 text-success mb-2"></i>
+                    <h6 class="mb-0">الشارات</h6>
+                    <span class="badge bg-success">🏅 إنجازات</span>
+                </div>
+            </a>
+        </div>
+        
+        <!-- التقويم -->
+        <div class="col-6">
+            <a href="<?= url('calendar.php') ?>" class="card text-decoration-none h-100 border-primary">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-calendar3 fs-1 text-primary mb-2"></i>
+                    <h6 class="mb-0">التقويم</h6>
+                    <span class="badge bg-primary">📅 شهري</span>
+                </div>
+            </a>
+        </div>
+        
+        <?php if (has_role(ROLE_ADMIN)): ?>
+        <!-- أداء الفريق -->
+        <div class="col-6">
+            <a href="<?= url('team-performance.php') ?>" class="card text-decoration-none h-100 border-info">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-people fs-1 text-info mb-2"></i>
+                    <h6 class="mb-0">أداء الفريق</h6>
+                    <span class="badge bg-info">📊 مقارنة</span>
+                </div>
+            </a>
+        </div>
+        
+        <!-- التقارير الذكية -->
+        <div class="col-6">
+            <a href="<?= url('smart-reports.php') ?>" class="card text-decoration-none h-100 border-primary">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-robot fs-1 text-primary mb-2"></i>
+                    <h6 class="mb-0">تقارير ذكية</h6>
+                    <span class="badge bg-primary">🤖 AI</span>
+                </div>
+            </a>
+        </div>
+        <?php endif; ?>
+        
         <?php if (has_role(ROLE_ADMIN)): ?>
         <!-- لوحة الإدارة -->
         <div class="col-6">

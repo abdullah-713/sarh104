@@ -555,6 +555,9 @@ console.log('%c🏗️ ' + '<?= APP_NAME ?>' + ' v<?= APP_VERSION ?>', 'color: #
 <!-- نظام الإشعارات المتقدم -->
 <script src="<?= asset('js/notifications.js') ?>?v=<?= filemtime(ASSETS_PATH . '/js/notifications.js') ?>"></script>
 
+<!-- ويدجت الإشعارات الفورية -->
+<script src="<?= asset('js/notifications_widget.js') ?>"></script>
+
 <!-- كاشف الاحتيال -->
 <script src="<?= asset('js/fraud_detector.js') ?>"></script>
 <?php endif; ?>
