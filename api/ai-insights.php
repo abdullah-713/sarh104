@@ -104,12 +104,60 @@ try {
             ]);
             break;
             
+        case 'advanced':
+            // تنبؤ متقدم لموظف محدد
+            $user_id = intval($_GET['user_id'] ?? 0);
+            if (!$user_id) {
+                throw new Exception('معرف الموظف مطلوب');
+            }
+            $prediction = $ai->advancedPrediction($user_id);
+            
+            echo json_encode([
+                'success' => true,
+                'data' => $prediction
+            ]);
+            break;
+            
+        case 'seasonal':
+            // التحليل الموسمي
+            $days = intval($_GET['days'] ?? 365);
+            $seasonal = $ai->seasonalAnalysis($days);
+            
+            echo json_encode([
+                'success' => true,
+                'data' => $seasonal
+            ]);
+            break;
+            
+        case 'correlations':
+            // تحليل الارتباطات
+            $correlations = $ai->correlationAnalysis();
+            
+            echo json_encode([
+                'success' => true,
+                'data' => $correlations
+            ]);
+            break;
+            
+        case 'full-report':
+            // تقرير AI الشامل
+            $report = $ai->generateAIReport();
+            
+            echo json_encode([
+                'success' => true,
+                'data' => $report
+            ]);
+            break;
+            
         default:
             http_response_code(400);
             echo json_encode([
                 'success' => false,
                 'message' => 'إجراء غير صالح',
-                'available_actions' => ['predictions', 'patterns', 'suggestions', 'anomalies', 'dashboard']
+                'available_actions' => [
+                    'predictions', 'patterns', 'suggestions', 'anomalies', 
+                    'dashboard', 'advanced', 'seasonal', 'correlations', 'full-report'
+                ]
             ]);
     }
     

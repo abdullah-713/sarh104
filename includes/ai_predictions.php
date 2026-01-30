@@ -430,4 +430,262 @@ class SarhAIPredictions {
         
         return $anomalies;
     }
+    
+    /**
+     * خوارزمية التنبؤ المتقدمة - تحليل السلاسل الزمنية
+     */
+    public function advancedPrediction($user_id) {
+        $prediction = [
+            'next_absence_probability' => 0,
+            'predicted_day' => null,
+            'confidence' => 0,
+            'factors' => []
+        ];
+        
+        try {
+            // جلب تاريخ الحضور الكامل
+            $stmt = $this->pdo->prepare("
+                SELECT date, status, DAYOFWEEK(date) as day_num
+                FROM attendance 
+                WHERE user_id = ? 
+                AND date >= DATE_SUB(NOW(), INTERVAL 180 DAY)
+                ORDER BY date DESC
+            ");
+            $stmt->execute([$user_id]);
+            $history = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            if (count($history) < 30) {
+                return $prediction;
+            }
+            
+            // تحليل أنماط الأيام
+            $day_patterns = [];
+            foreach ($history as $record) {
+                $day = $record['day_num'];
+                if (!isset($day_patterns[$day])) {
+                    $day_patterns[$day] = ['total' => 0, 'absent' => 0];
+                }
+                $day_patterns[$day]['total']++;
+                if ($record['status'] === 'absent') {
+                    $day_patterns[$day]['absent']++;
+                }
+            }
+            
+            // أسوأ يوم
+            $worst_day = null;
+            $worst_rate = 0;
+            foreach ($day_patterns as $day => $data) {
+                if ($data['total'] > 3) {
+                    $rate = $data['absent'] / $data['total'];
+                    if ($rate > $worst_rate) {
+                        $worst_rate = $rate;
+                        $worst_day = $day;
+                    }
+                }
+            }
+            
+            // تحليل السلاسل - كشف الأنماط التكرارية
+            $absence_gaps = [];
+            $last_absence = null;
+            foreach ($history as $record) {
+                if ($record['status'] === 'absent') {
+                    if ($last_absence) {
+                        $gap = (strtotime($last_absence) - strtotime($record['date'])) / 86400;
+                        if ($gap > 0) {
+                            $absence_gaps[] = $gap;
+                        }
+                    }
+                    $last_absence = $record['date'];
+                }
+            }
+            
+            // متوسط الفجوة بين الغيابات
+            $avg_gap = !empty($absence_gaps) ? array_sum($absence_gaps) / count($absence_gaps) : 30;
+            $days_since_last = $last_absence ? (time() - strtotime($last_absence)) / 86400 : 0;
+            
+            // حساب الاحتمالية
+            $gap_factor = $avg_gap > 0 ? min(1, $days_since_last / $avg_gap) : 0;
+            $pattern_factor = $worst_rate;
+            
+            // الوزن المرجح
+            $probability = ($gap_factor * 0.4 + $pattern_factor * 0.4 + ($worst_rate * 0.2)) * 100;
+            
+            $prediction = [
+                'next_absence_probability' => min(95, round($probability)),
+                'predicted_day' => $worst_day,
+                'average_gap_days' => round($avg_gap),
+                'days_since_last_absence' => round($days_since_last),
+                'confidence' => min(90, count($history) / 2),
+                'factors' => [
+                    'أسوأ يوم' => $this->getDayName($worst_day) . ' (' . round($worst_rate * 100) . '%)',
+                    'متوسط الفجوة' => round($avg_gap) . ' يوم',
+                    'منذ آخر غياب' => round($days_since_last) . ' يوم'
+                ]
+            ];
+            
+        } catch (Exception $e) {
+            // Ignore
+        }
+        
+        return $prediction;
+    }
+    
+    /**
+     * تحليل موسمي - كشف أنماط الأشهر
+     */
+    public function seasonalAnalysis($days = 365) {
+        $analysis = [];
+        
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT 
+                    MONTH(date) as month_num,
+                    COUNT(CASE WHEN status = 'absent' THEN 1 END) as absences,
+                    COUNT(*) as total
+                FROM attendance
+                WHERE date >= DATE_SUB(NOW(), INTERVAL ? DAY)
+                GROUP BY MONTH(date)
+                ORDER BY month_num
+            ");
+            $stmt->execute([$days]);
+            $monthly = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            $month_names = [
+                1 => 'يناير', 2 => 'فبراير', 3 => 'مارس', 4 => 'أبريل',
+                5 => 'مايو', 6 => 'يونيو', 7 => 'يوليو', 8 => 'أغسطس',
+                9 => 'سبتمبر', 10 => 'أكتوبر', 11 => 'نوفمبر', 12 => 'ديسمبر'
+            ];
+            
+            $worst_month = null;
+            $best_month = null;
+            $worst_rate = 0;
+            $best_rate = 100;
+            
+            foreach ($monthly as $m) {
+                $rate = $m['total'] > 0 ? ($m['absences'] / $m['total']) * 100 : 0;
+                $m['absence_rate'] = round($rate, 1);
+                $m['month_name'] = $month_names[$m['month_num']] ?? '';
+                $analysis['months'][] = $m;
+                
+                if ($rate > $worst_rate) {
+                    $worst_rate = $rate;
+                    $worst_month = $m;
+                }
+                if ($rate < $best_rate && $m['total'] > 10) {
+                    $best_rate = $rate;
+                    $best_month = $m;
+                }
+            }
+            
+            $analysis['worst_month'] = $worst_month;
+            $analysis['best_month'] = $best_month;
+            
+            // الشهر الحالي مقابل المعدل
+            $current_month = date('n');
+            $analysis['current_month_risk'] = 'normal';
+            if ($worst_month && $worst_month['month_num'] == $current_month) {
+                $analysis['current_month_risk'] = 'high';
+            }
+            
+        } catch (Exception $e) {
+            // Ignore
+        }
+        
+        return $analysis;
+    }
+    
+    /**
+     * تحليل الارتباط - العلاقة بين العوامل
+     */
+    public function correlationAnalysis() {
+        $correlations = [];
+        
+        try {
+            // علاقة المسافة بالتأخير
+            $stmt = $this->pdo->query("
+                SELECT 
+                    u.id,
+                    u.name,
+                    b.latitude as branch_lat,
+                    b.longitude as branch_lng,
+                    COUNT(CASE WHEN a.status = 'late' THEN 1 END) as late_count,
+                    COUNT(*) as total
+                FROM users u
+                JOIN branches b ON u.branch_id = b.id
+                LEFT JOIN attendance a ON u.id = a.user_id 
+                    AND a.date >= DATE_SUB(NOW(), INTERVAL 90 DAY)
+                WHERE u.is_active = 1
+                GROUP BY u.id
+                HAVING total > 20
+            ");
+            $distance_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // علاقة الأقسام بالغياب
+            $stmt = $this->pdo->query("
+                SELECT 
+                    d.name as department,
+                    COUNT(CASE WHEN a.status = 'absent' THEN 1 END) as absences,
+                    COUNT(*) as total,
+                    ROUND(COUNT(CASE WHEN a.status = 'absent' THEN 1 END) * 100.0 / COUNT(*), 1) as rate
+                FROM attendance a
+                JOIN users u ON a.user_id = u.id
+                LEFT JOIN departments d ON u.department_id = d.id
+                WHERE a.date >= DATE_SUB(NOW(), INTERVAL 90 DAY)
+                GROUP BY d.id
+                ORDER BY rate DESC
+            ");
+            $correlations['by_department'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // علاقة مدة الخدمة بالالتزام
+            $stmt = $this->pdo->query("
+                SELECT 
+                    CASE 
+                        WHEN DATEDIFF(NOW(), u.created_at) < 90 THEN 'جديد (أقل من 3 أشهر)'
+                        WHEN DATEDIFF(NOW(), u.created_at) < 365 THEN 'متوسط (3-12 شهر)'
+                        ELSE 'قديم (أكثر من سنة)'
+                    END as tenure_group,
+                    COUNT(CASE WHEN a.status = 'present' THEN 1 END) as present,
+                    COUNT(*) as total,
+                    ROUND(COUNT(CASE WHEN a.status = 'present' THEN 1 END) * 100.0 / COUNT(*), 1) as rate
+                FROM users u
+                LEFT JOIN attendance a ON u.id = a.user_id 
+                    AND a.date >= DATE_SUB(NOW(), INTERVAL 90 DAY)
+                WHERE u.is_active = 1
+                GROUP BY tenure_group
+            ");
+            $correlations['by_tenure'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+        } catch (Exception $e) {
+            // Ignore
+        }
+        
+        return $correlations;
+    }
+    
+    /**
+     * توليد تقرير AI شامل
+     */
+    public function generateAIReport() {
+        return [
+            'predictions' => $this->predictAbsences(7),
+            'suggestions' => $this->getImprovementSuggestions(),
+            'patterns' => $this->analyzeCompanyPatterns(30),
+            'seasonal' => $this->seasonalAnalysis(365),
+            'correlations' => $this->correlationAnalysis(),
+            'anomalies' => $this->detectAnomalies(),
+            'generated_at' => date('Y-m-d H:i:s'),
+            'model_version' => '2.0'
+        ];
+    }
+    
+    /**
+     * تحويل رقم اليوم لاسم
+     */
+    private function getDayName($day_num) {
+        $days = [
+            1 => 'الأحد', 2 => 'الاثنين', 3 => 'الثلاثاء',
+            4 => 'الأربعاء', 5 => 'الخميس', 6 => 'الجمعة', 7 => 'السبت'
+        ];
+        return $days[$day_num] ?? 'غير معروف';
+    }
 }
