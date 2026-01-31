@@ -20,9 +20,9 @@ require_once INCLUDES_PATH . '/functions.php';
 check_login();
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// التحقق من صلاحية God Mode (مستوى 10 فقط)
+// التحقق من صلاحية God Mode (مستوى 5 فأعلى - super_admin و developer)
 // ═══════════════════════════════════════════════════════════════════════════════
-if ($_SESSION['role_level'] < 10) {
+if ($_SESSION['role_level'] < 5 && empty($_SESSION['is_super_admin'])) {
     log_activity('unauthorized_access', 'security', 'محاولة وصول غير مصرح لمدير قاعدة البيانات', current_user_id(), 'user');
     flash('danger', 'ليس لديك صلاحية للوصول إلى هذه الصفحة');
     redirect(url('index.php'));
@@ -31,7 +31,7 @@ if ($_SESSION['role_level'] < 10) {
 // ═══════════════════════════════════════════════════════════════════════════════
 // قائمة الجداول المحمية (لا يمكن حذف أو تعديل بعض البيانات فيها)
 // ═══════════════════════════════════════════════════════════════════════════════
-$protectedTables = ['users', 'roles', 'permissions', 'settings'];
+$protectedTables = ['roles', 'permissions']; // يمكن تعديل users و branches و settings
 $readOnlyTables = ['activity_logs', 'login_logs', 'fraud_detection_logs'];
 $blockedTables = ['system_config']; // لا يمكن الوصول إليها نهائياً
 

@@ -24,9 +24,9 @@ if (!is_logged_in()) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// التحقق من صلاحية God Mode (مستوى 10 فقط)
+// التحقق من صلاحية God Mode (مستوى 5 فأعلى - super_admin و developer)
 // ═══════════════════════════════════════════════════════════════════════════════
-if ($_SESSION['role_level'] < 10) {
+if ($_SESSION['role_level'] < 5 && empty($_SESSION['is_super_admin'])) {
     log_activity('unauthorized_api', 'security', 'محاولة وصول API غير مصرح', current_user_id(), 'user');
     json_response(['success' => false, 'message' => 'ليس لديك صلاحية'], 403);
 }
@@ -53,7 +53,7 @@ $action = $input['action'] ?? '';
 // ═══════════════════════════════════════════════════════════════════════════════
 // قائمة الجداول المحمية (لا يمكن حذفها أو تعديل هيكلها)
 // ═══════════════════════════════════════════════════════════════════════════════
-$protectedTables = ['users', 'roles', 'permissions', 'settings', 'branches'];
+$protectedTables = ['roles', 'permissions']; // يمكن تعديل users و branches و settings
 $readOnlyTables = ['activity_logs', 'login_logs', 'fraud_detection_logs', 'audit_logs'];
 $blockedTables = ['system_config', 'migrations']; // لا يمكن الوصول إليها
 
